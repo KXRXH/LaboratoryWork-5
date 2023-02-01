@@ -2,17 +2,26 @@ package itmo.kxrxh.lab5.types;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The type Address.
+ */
 public class Address {
     /**
      * Street name. Cannot be empty or null.
      */
     @NotNull
-    private String street; // Строка не может быть пустой, Поле не может быть null
+    private final String street; // Строка не может быть пустой, Поле не может быть null
     /**
      * Zip code. Can be null.
      */
-    private String zipCode; // Поле может быть null
+    private final String zipCode; // Поле может быть null
 
+    /**
+     * Instantiates a new Address.
+     *
+     * @param street  the street
+     * @param zipCode the zip code
+     */
     public Address(@NotNull String street, String zipCode) {
         if (street.isEmpty()) {
             throw new IllegalArgumentException("Street cannot be empty");
@@ -24,7 +33,7 @@ public class Address {
     /**
      * Getter for street
      *
-     * @return street
+     * @return street street
      */
     public @NotNull String getStreet() {
         return street;
@@ -33,7 +42,7 @@ public class Address {
     /**
      * Getter for zipCode
      *
-     * @return zipCode
+     * @return zipCode zip code
      */
     public String getZipCode() {
         return zipCode;

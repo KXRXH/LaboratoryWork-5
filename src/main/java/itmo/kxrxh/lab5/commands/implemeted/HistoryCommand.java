@@ -5,9 +5,22 @@ import itmo.kxrxh.lab5.utils.types.SizedStack;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HistoryCommand implements Executable {
+/**
+ * History command
+ *
+ * @author kxrxh
+ */
+public final class HistoryCommand implements Executable {
+    /**
+     * Contains last 7 commands
+     */
     private final SizedStack<String> history;
 
+    /**
+     * Instantiates a new History command.
+     *
+     * @param history history stack
+     */
     public HistoryCommand(SizedStack<String> history) {
         this.history = history;
     }

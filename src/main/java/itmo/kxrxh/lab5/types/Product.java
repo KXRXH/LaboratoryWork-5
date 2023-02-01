@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Product.
+ */
 public class Product {
     /**
      * ID of the product. Is unique, cannot be null, is generated automatically and greater than 0.
@@ -15,40 +18,42 @@ public class Product {
      * Name of the product. Cannot be null or empty.
      */
     @NotNull
-    private String name; // Поле не может быть null, Строка не может быть пустой
+    private final String name; // Поле не может быть null, Строка не может быть пустой
     /**
      * Coordinates of the product. Cannot be null.
      */
     @NotNull
-    private Coordinates coordinates; // Поле не может быть null
+    private final Coordinates coordinates; // Поле не может быть null
     /**
      * Creation date of the product. Cannot be null, is generated automatically.
      */
     @NotNull
-    private java.time.LocalDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private final java.time.LocalDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
     /**
      * Price of the product. Cannot be null, is greater than 0.
      */
-    private Double price; // Значение поля должно быть больше 0
+    private final Double price; // Значение поля должно быть больше 0
     @NotNull
-    private String partNumber; // Поле должно быть уникальным, Длина строки должна быть не меньше 18, Поле не может быть null, Строка не может быть пустой
+    private final String partNumber; // Поле должно быть уникальным, Длина строки должна быть не меньше 18, Поле не может быть null, Строка не может быть пустой
     /**
      * Unit of measure of the product. Cannot be null.
      */
     @NotNull
-    private UnitOfMeasure unitOfMeasure; // Поле не может быть null
+    private final UnitOfMeasure unitOfMeasure; // Поле не может быть null
 
     /**
      * Manufacturer of the product. Cannot be null.
      */
     @NotNull
-    private Organization manufacturer; // Поле не может быть null
+    private final Organization manufacturer; // Поле не может быть null
     /**
      * Manufacture cost of the product
      */
-    private float manufactureCost;
+    private final float manufactureCost;
 
     /**
+     * Instantiates a new Product.
+     *
      * @param name            name of the product
      * @param coordinates     coordinates of the product
      * @param price           price of the product
@@ -84,7 +89,7 @@ public class Product {
     /**
      * Get id
      *
-     * @return id
+     * @return id id
      */
     public Integer getId() {
         return id;
@@ -93,7 +98,7 @@ public class Product {
     /**
      * Get name
      *
-     * @return name
+     * @return name name
      */
     public @NotNull String getName() {
         return name;
@@ -102,7 +107,7 @@ public class Product {
     /**
      * Get coordinates
      *
-     * @return coordinates
+     * @return coordinates coordinates
      */
     public @NotNull Coordinates getCoordinates() {
         return coordinates;
@@ -120,7 +125,7 @@ public class Product {
     /**
      * Get price
      *
-     * @return price
+     * @return price price
      */
     public Double getPrice() {
         return price;
@@ -147,7 +152,7 @@ public class Product {
     /**
      * Get manufacturer
      *
-     * @return manufacturer
+     * @return manufacturer manufacturer
      */
     public @NotNull Organization getManufacturer() {
         return manufacturer;

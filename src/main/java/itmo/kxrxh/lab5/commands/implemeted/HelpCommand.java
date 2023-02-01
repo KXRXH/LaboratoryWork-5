@@ -2,6 +2,11 @@ package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.commands.Executable;
 
+/**
+ * Help command - print all commands\
+ *
+ * @author kxrxh
+ */
 public record HelpCommand() implements Executable {
     @Override
     public void execute() {

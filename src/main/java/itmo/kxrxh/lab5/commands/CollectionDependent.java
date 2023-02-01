@@ -2,9 +2,24 @@ package itmo.kxrxh.lab5.commands;
 
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 
+/**
+ * Abstract class for commands that depend on collection
+ *
+ * @author kxrxh
+ */
 public abstract class CollectionDependent implements Executable {
+    /**
+     * Collection manager
+     *
+     * @see CollectionManager
+     */
     private final CollectionManager collectionManager;
 
+    /**
+     * Instantiates a new Collection dependent.
+     *
+     * @param collectionManager Collection manager
+     */
     public CollectionDependent(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -14,6 +29,11 @@ public abstract class CollectionDependent implements Executable {
 
     }
 
+    /**
+     * Getter for collection manager
+     *
+     * @return Collection manager
+     */
     public CollectionManager getCollectionManager() {
         return collectionManager;
     }

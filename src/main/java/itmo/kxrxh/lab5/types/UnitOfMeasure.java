@@ -4,5 +4,16 @@ package itmo.kxrxh.lab5.types;
  * UnitOfMeasure enum
  */
 public enum UnitOfMeasure {
-    GRAMS, METER, PCS;
+    /**
+     * Grams unit of measure.
+     */
+    GRAMS,
+    /**
+     * Meter unit of measure.
+     */
+    METER,
+    /**
+     * Pcs unit of measure.
+     */
+    PCS
 }

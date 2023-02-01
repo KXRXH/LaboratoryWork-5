@@ -5,6 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Time class. Used to get current time. +4 hours from UTC
+ *
+ * @author kxrxh
  */
 public final class Time {
     /**

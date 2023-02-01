@@ -4,7 +4,17 @@ import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.types.Product;
 
-public class HeadCommand extends CollectionDependent {
+/**
+ * Head command - returns first element of collection
+ *
+ * @author kxrxh
+ */
+public final class HeadCommand extends CollectionDependent {
+    /**
+     * Instantiates a new Head command.
+     *
+     * @param collectionManager collection manager
+     */
     public HeadCommand(CollectionManager collectionManager) {
         super(collectionManager);
     }

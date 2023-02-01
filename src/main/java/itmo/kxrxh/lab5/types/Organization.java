@@ -4,6 +4,9 @@ import itmo.kxrxh.lab5.utils.IdGenerator;
 import org.jetbrains.annotations.NotNull;
 
 
+/**
+ * The type Organization.
+ */
 public class Organization {
     /**
      * Unique id
@@ -13,23 +16,25 @@ public class Organization {
      * Name of the organization
      */
     @NotNull
-    private String name;
+    private final String name;
     /**
      * Number of employees
      */
-    private int employeesCount;
+    private final int employeesCount;
     /**
      * Type of the organization
      */
     @NotNull
-    private OrganizationType type;
+    private final OrganizationType type;
     /**
      * Postal address of the organization
      */
     @NotNull
-    private Address postalAddress;
+    private final Address postalAddress;
 
     /**
+     * Instantiates a new Organization.
+     *
      * @param name           name of the organization
      * @param employeesCount number of employees
      * @param type           type of the organization
@@ -52,22 +57,47 @@ public class Organization {
         this.postalAddress = postalAddress;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public @NotNull String getName() {
         return name;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Gets employees count.
+     *
+     * @return the employees count
+     */
     public int getEmployeesCount() {
         return employeesCount;
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
     public @NotNull OrganizationType getType() {
         return type;
     }
 
+    /**
+     * Gets postal address.
+     *
+     * @return the postal address
+     */
     public @NotNull Address getPostalAddress() {
         return postalAddress;
     }

@@ -2,11 +2,20 @@ package itmo.kxrxh.lab5.types;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The type Coordinates.
+ */
 public class Coordinates {
     @NotNull
-    private Integer x; // Максимальное значение поля: 444, Поле не может быть null
-    private double y; // Значение поля должно быть больше -368
+    private final Integer x; // Максимальное значение поля: 444, Поле не может быть null
+    private final double y; // Значение поля должно быть больше -368
 
+    /**
+     * Instantiates a new Coordinates.
+     *
+     * @param x the x
+     * @param y the y
+     */
     public Coordinates(Integer x, double y) {
         if (x == null) {
             throw new IllegalArgumentException("X cannot be null");

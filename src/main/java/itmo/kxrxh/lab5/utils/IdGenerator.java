@@ -5,14 +5,16 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * IdGenerator class. Used to generate unique ids.
+ *
+ * @author kxrxh
  */
 public final class IdGenerator {
     /**
-     * Unique id. Start from 1
+     * Unique id. Starts from 1
      */
     private static final AtomicLong long_id_counter = new AtomicLong(0);
     /**
-     * Unique id. Start from 1
+     * Unique id. Starts from 1
      */
     private static final AtomicInteger int_id_counter = new AtomicInteger(0);
 

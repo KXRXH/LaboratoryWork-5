@@ -11,6 +11,9 @@ import java.util.LinkedList;
  * @author kxrxh
  */
 public class ModLinkedList extends LinkedList<Product> implements Collection, SortableCollection {
+    /**
+     * Instantiates a new Mod linked list.
+     */
     public ModLinkedList() {
         super();
     }
@@ -39,6 +42,15 @@ public class ModLinkedList extends LinkedList<Product> implements Collection, So
             return;
         }
         this.clear();
+    }
+
+    /**
+     * Remove element by id
+     *
+     * @param id of the product
+     */
+    public void removeById(long id) {
+        super.removeIf(product -> product.getId() == id);
     }
 
     /**

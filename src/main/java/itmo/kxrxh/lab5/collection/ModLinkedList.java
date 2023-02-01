@@ -9,8 +9,12 @@ import java.util.LinkedList;
  * ModLinkedList class
  *
  * @author kxrxh
+ * @see LinkedList
+ * @see Product
+ * @see BasicCollection
+ * @see SortableCollection
  */
-public class ModLinkedList extends LinkedList<Product> implements Collection, SortableCollection {
+public class ModLinkedList extends LinkedList<Product> implements BasicCollection, SortableCollection {
     /**
      * Instantiates a new Mod linked list.
      */
@@ -58,6 +62,45 @@ public class ModLinkedList extends LinkedList<Product> implements Collection, So
      */
     @Override
     public void sort() {
-        this.sort(null);
+        this.sort(Product::compareTo);
+    }
+
+    /**
+     * Quick sort.
+     *
+     * @param left  begin of the LinkedList (index)
+     * @param right end of the LinkedList (index)
+     */
+    @Override
+    public void quickSort(int left, int right) {
+        if (left < right) {
+            int pi = partition(left, right);
+            quickSort(left, pi - 1);
+            quickSort(pi + 1, right);
+        }
+    }
+
+    /**
+     * Partition. Used in quickSort.
+     *
+     * @param low  begin of the LinkedList (index)
+     * @param high end of the LinkedList (index)
+     * @return index of the pivot
+     */
+    private int partition(int low, int high) {
+        Product pivot = this.get(high);
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (this.get(j).compareTo(pivot) < 0) {
+                i++;
+                Product temp = this.get(i);
+                this.set(i, this.get(j));
+                this.set(j, temp);
+            }
+        }
+        Product temp = this.get(i + 1);
+        this.set(i + 1, this.get(high));
+        this.set(high, temp);
+        return i + 1;
     }
 }

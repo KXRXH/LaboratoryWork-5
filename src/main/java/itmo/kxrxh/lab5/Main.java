@@ -4,7 +4,9 @@ package itmo.kxrxh.lab5;
 import itmo.kxrxh.lab5.collection.ModLinkedList;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
-import itmo.kxrxh.lab5.utils.dotenv.DotEnv;
+import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
+import itmo.kxrxh.lab5.utils.xml.XMLCore;
+import itmo.kxrxh.lab5.utils.xml.XmlWriter;
 
 import java.util.Scanner;
 
@@ -40,6 +42,11 @@ public final class Main {
         // Reading .env file
         System.out.println(dotEnv.get("FILE_NAME"));
         CommandBuilder commandBuilder = new CommandBuilder(collectionManager);
+        XMLCore xmlCore = new XMLCore(dotEnv.get("FILE_NAME"), collectionManager);
+        XmlWriter xmlWriter = xmlCore.newXMLWriter();
+        if (xmlWriter != null) {
+            // TODO
+        }
         // Program loop
         while (true) {
             // Reading user input

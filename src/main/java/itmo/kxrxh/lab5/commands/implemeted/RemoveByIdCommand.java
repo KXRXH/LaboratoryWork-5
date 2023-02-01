@@ -16,6 +16,7 @@ public final class RemoveByIdCommand extends CollectionDependent {
      *
      * @param collectionManager Collection manager
      * @param commandArgs       Command arguments
+     * @see CollectionManager
      */
     public RemoveByIdCommand(CollectionManager collectionManager, String[] commandArgs) {
         super(collectionManager);

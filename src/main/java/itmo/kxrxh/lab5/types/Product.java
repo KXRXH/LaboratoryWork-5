@@ -1,13 +1,18 @@
 package itmo.kxrxh.lab5.types;
 
-import itmo.kxrxh.lab5.utils.IdGenerator;
-import itmo.kxrxh.lab5.utils.Time;
+import itmo.kxrxh.lab5.utils.generators.IdGenerator;
+import itmo.kxrxh.lab5.utils.generators.Time;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
 /**
  * The type Product.
+ *
+ * @author kxrxh
+ * @see Coordinates
+ * @see UnitOfMeasure
+ * @see Organization
  */
 public class Product {
     /**
@@ -89,7 +94,7 @@ public class Product {
     /**
      * Get id
      *
-     * @return id id
+     * @return id
      */
     public Integer getId() {
         return id;
@@ -98,7 +103,7 @@ public class Product {
     /**
      * Get name
      *
-     * @return name name
+     * @return name
      */
     public @NotNull String getName() {
         return name;
@@ -125,7 +130,7 @@ public class Product {
     /**
      * Get price
      *
-     * @return price price
+     * @return price
      */
     public Double getPrice() {
         return price;
@@ -152,7 +157,7 @@ public class Product {
     /**
      * Get manufacturer
      *
-     * @return manufacturer manufacturer
+     * @return manufacturer
      */
     public @NotNull Organization getManufacturer() {
         return manufacturer;
@@ -165,5 +170,13 @@ public class Product {
      */
     public float getManufactureCost() {
         return manufactureCost;
+    }
+
+    /**
+     * @param pivot product to compare with
+     * @return 0 if equal, 1 if greater, -1 if less
+     */
+    public int compareTo(Product pivot) {
+        return this.id.compareTo(pivot.id);
     }
 }

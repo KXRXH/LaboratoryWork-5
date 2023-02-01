@@ -1,4 +1,4 @@
-package itmo.kxrxh.lab5.utils;
+package itmo.kxrxh.lab5.utils.generators;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;

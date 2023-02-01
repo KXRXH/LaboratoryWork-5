@@ -1,4 +1,4 @@
-package itmo.kxrxh.lab5.utils;
+package itmo.kxrxh.lab5.utils.env;
 
 import org.jetbrains.annotations.Nullable;
 

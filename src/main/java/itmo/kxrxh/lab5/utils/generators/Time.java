@@ -1,4 +1,4 @@
-package itmo.kxrxh.lab5.utils;
+package itmo.kxrxh.lab5.utils.generators;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

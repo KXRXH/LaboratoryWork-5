@@ -14,6 +14,7 @@ public final class HeadCommand extends CollectionDependent {
      * Instantiates a new Head command.
      *
      * @param collectionManager collection manager
+     * @see CollectionManager
      */
     public HeadCommand(CollectionManager collectionManager) {
         super(collectionManager);

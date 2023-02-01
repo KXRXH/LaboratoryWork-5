@@ -13,6 +13,7 @@ public final class SumOfPriceCommand extends CollectionDependent {
      * Instantiates a new Sum of price command.
      *
      * @param collectionManager collection manager
+     * @see CollectionManager
      */
     public SumOfPriceCommand(CollectionManager collectionManager) {
         super(collectionManager);

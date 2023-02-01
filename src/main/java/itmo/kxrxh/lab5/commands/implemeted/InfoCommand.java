@@ -14,6 +14,7 @@ public final class InfoCommand extends CollectionDependent {
      * Instantiates a new Info command.
      *
      * @param collectionManager collection manager
+     * @see CollectionManager
      */
     public InfoCommand(CollectionManager collectionManager) {
         super(collectionManager);

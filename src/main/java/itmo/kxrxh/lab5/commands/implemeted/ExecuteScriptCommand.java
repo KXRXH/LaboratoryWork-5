@@ -26,6 +26,8 @@ public class ExecuteScriptCommand extends CollectionDependent {
      * @param collectionManager the collection manager
      * @param commandArgs       the command args
      * @param commandBuilder    the command builder
+     * @see CommandBuilder
+     * @see CollectionManager
      */
     public ExecuteScriptCommand(CollectionManager collectionManager, String[] commandArgs, CommandBuilder commandBuilder) {
         super(collectionManager);
@@ -47,7 +49,8 @@ public class ExecuteScriptCommand extends CollectionDependent {
         try {
             scanner = new Scanner(scriptFile);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("script file not found");
+            System.out.println("No such script file: " + fileName);
+            return;
         }
         while (scanner.hasNextLine()) {
             lines.add(scanner.nextLine());

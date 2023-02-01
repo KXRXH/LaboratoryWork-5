@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * The type Coordinates.
+ *
+ * @author kxrxh
  */
 public class Coordinates {
     @NotNull

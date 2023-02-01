@@ -1,4 +1,4 @@
-package itmo.kxrxh.lab5.utils.dotenv;
+package itmo.kxrxh.lab5.utils.env.dotenv;
 
 import java.util.Map;
 

@@ -14,6 +14,7 @@ public final class ShowCommand extends CollectionDependent {
      * Instantiates a new Show command.
      *
      * @param collectionManager collection manager
+     * @see CollectionManager
      */
     public ShowCommand(CollectionManager collectionManager) {
         super(collectionManager);

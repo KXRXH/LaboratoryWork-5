@@ -1,11 +1,15 @@
 package itmo.kxrxh.lab5.types;
 
-import itmo.kxrxh.lab5.utils.IdGenerator;
+import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import org.jetbrains.annotations.NotNull;
 
 
 /**
  * The type Organization.
+ *
+ * @author kxrxh
+ * @see OrganizationType
+ * @see Address
  */
 public class Organization {
     /**

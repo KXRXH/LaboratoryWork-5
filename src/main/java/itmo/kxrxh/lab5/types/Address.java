@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * The type Address.
+ *
+ * @author kxrxh
  */
 public class Address {
     /**
@@ -33,7 +35,7 @@ public class Address {
     /**
      * Getter for street
      *
-     * @return street street
+     * @return street
      */
     public @NotNull String getStreet() {
         return street;

@@ -49,9 +49,7 @@ public record CollectionManager(ModLinkedList collection) {
      *
      * @return sum of price of all products
      */
-    @TestOnly
     public double sumOfPrice() {
-        // TODO: untested
         return collection.stream().mapToDouble(Product::getPrice).sum();
     }
 

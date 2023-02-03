@@ -44,7 +44,18 @@ public class Organization {
      * @param type           type of the organization
      * @param postalAddress  postal address of the organization
      */
-    public Organization(@NotNull String name, int employeesCount, @NotNull OrganizationType type, @NotNull Address postalAddress) {
+    public Organization(String name, int employeesCount, OrganizationType type, Address postalAddress) {
+        this(IdGenerator.generateLongId(), name, employeesCount, type, postalAddress);
+    }
+
+    /**
+     * @param id             unique id
+     * @param name           name of the organization
+     * @param employeesCount number of employees
+     * @param type           type of the organization
+     * @param postalAddress  postal address of the organization
+     */
+    public Organization(long id, @NotNull String name, int employeesCount, @NotNull OrganizationType type, @NotNull Address postalAddress) {
         // employeesCount > 0
         if (employeesCount <= 0) {
             throw new RuntimeException("Employees count must be greater than 0");
@@ -54,7 +65,7 @@ public class Organization {
             throw new RuntimeException("Name cannot be empty");
         }
         // Generating unique id
-        this.id = IdGenerator.generateLongId();
+        this.id = id;
         this.name = name;
         this.employeesCount = employeesCount;
         this.type = type;

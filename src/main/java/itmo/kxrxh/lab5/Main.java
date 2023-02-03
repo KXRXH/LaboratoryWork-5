@@ -4,10 +4,13 @@ package itmo.kxrxh.lab5;
 import itmo.kxrxh.lab5.collection.ModLinkedList;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
+import itmo.kxrxh.lab5.types.OrganizationType;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
+import itmo.kxrxh.lab5.utils.generators.Time;
 import itmo.kxrxh.lab5.utils.xml.XMLCore;
-import itmo.kxrxh.lab5.utils.xml.XmlWriter;
 
+import java.io.FileNotFoundException;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -40,13 +43,17 @@ public final class Main {
         Scanner in = new Scanner(System.in);
         CollectionManager collectionManager = new CollectionManager(modLinkedList);
         // Reading .env file
-        System.out.println(dotEnv.get("FILE_NAME"));
         CommandBuilder commandBuilder = new CommandBuilder(collectionManager);
         XMLCore xmlCore = new XMLCore(dotEnv.get("FILE_NAME"), collectionManager);
-        XmlWriter xmlWriter = xmlCore.newXMLWriter();
-        if (xmlWriter != null) {
-            // TODO
+        try {
+            var xmlc = xmlCore.newXMLReader().parse();
+            xmlc.getInfo();
+            // xmlc.quickSort(0, xmlc.size() - 1);
+            // xmlc.getInfo();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
         }
+
         // Program loop
         while (true) {
             // Reading user input

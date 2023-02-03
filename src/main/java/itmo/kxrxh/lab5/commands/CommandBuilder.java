@@ -34,31 +34,19 @@ public class CommandBuilder {
     public Executable buildCommand(String command, String[] commandArgs) {
         // Add command to history
         history.push(command);
-        switch (command) {
-            case "help":
-                return new HelpCommand();
-            case "info":
-                return new InfoCommand(collectionManager);
-            case "show":
-                return new ShowCommand(collectionManager);
-            case "clear":
-                return new ClearCommand(collectionManager);
-            case "head":
-                return new HeadCommand(collectionManager);
-            case "sum_of_price":
-                return new SumOfPriceCommand(collectionManager);
-            case "history":
-                return new HistoryCommand(history);
-            case "exit":
-                return new ExitCommand();
-            case "execute_script": {
-                return new ExecuteScriptCommand(collectionManager, commandArgs, this);
-            }
-            case "remove_by_id":
-                return new RemoveByIdCommand(collectionManager, commandArgs);
-            default:
-                return new UnknownCommand();
-        }
+        return switch (command) {
+            case "help" -> new HelpCommand();
+            case "info" -> new InfoCommand(collectionManager);
+            case "show" -> new ShowCommand(collectionManager);
+            case "clear" -> new ClearCommand(collectionManager);
+            case "head" -> new HeadCommand(collectionManager);
+            case "sum_of_price" -> new SumOfPriceCommand(collectionManager);
+            case "history" -> new HistoryCommand(history);
+            case "exit" -> new ExitCommand();
+            case "execute_script" -> new ExecuteScriptCommand(collectionManager, commandArgs, this);
+            case "remove_by_id" -> new RemoveByIdCommand(collectionManager, commandArgs);
+            default -> new UnknownCommand();
+        };
     }
 
     /**

@@ -13,7 +13,7 @@ public final class EnvReader {
     /**
      * Map of environment variables. Key is variable name, value is variable value.
      */
-    private final static Map<String, String> env = System.getenv();
+    public final static Map<String, String> env = System.getenv();
 
     /**
      * Getter for environment variable. Returns null if variable is not found.

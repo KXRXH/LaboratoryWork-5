@@ -4,6 +4,8 @@ import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
+
 /**
  * Class for creating xml reader and writer
  *
@@ -61,7 +63,7 @@ public final class XMLCore {
      * @see XmlReader
      */
     @Contract(" -> new")
-    public @NotNull XmlReader newXMLReader() {
+    public @NotNull XmlReader newXMLReader() throws FileNotFoundException {
         return new XmlReader(this);
     }
 }

@@ -1,0 +1,49 @@
+<Collection>
+    <Product>
+        <id>1</id>
+        <name>Item 1</name>
+        <Coordinates>
+            <x>1</x>
+            <y>2</y>
+        </Coordinates>
+        <creationDate>2023-02-03T02:29:10.187096200</creationDate>
+        <price>100</price>
+        <partNumber>11111111111111111111111111111111111111111</partNumber>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+        <manufactureCost>10</manufactureCost>
+        <Organization>
+            <id>1</id>
+            <name>Manufacture 1</name>
+            <employees_count>100</employees_count>
+            <type>COMMERCIAL</type>
+            <Address>
+                <street>Street 1</street>
+                <zipcode>12345</zipcode>
+            </Address>
+        </Organization>
+    </Product>
+
+    <Product>
+        <id>2</id>
+        <name>Item 1</name>
+        <Coordinates>
+            <x>1</x>
+            <y>2</y>
+        </Coordinates>
+        <creationDate>2023-02-03T02:29:10.187096200</creationDate>
+        <price>100</price>
+        <partNumber>11111111111111111111111111111111111111111</partNumber>
+        <unitOfMeasure>GRAMS</unitOfMeasure>
+        <manufactureCost>10</manufactureCost>
+        <Organization>
+            <id>1</id>
+            <name>Manufacture 1</name>
+            <employees_count>100</employees_count>
+            <type>COMMERCIAL</type>
+            <Address>
+                <street>Street 1</street>
+                <zipcode>12345</zipcode>
+            </Address>
+        </Organization>
+    </Product>
+</Collection>

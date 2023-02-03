@@ -68,6 +68,23 @@ public class Product {
      * @param manufactureCost manufacture cost of the product
      */
     public Product(@NotNull String name, @NotNull Coordinates coordinates, @NotNull Double price, @NotNull String partNumber, @NotNull UnitOfMeasure unitOfMeasure, @NotNull Organization manufacturer, float manufactureCost) {
+        this(IdGenerator.generateIntId(), name, coordinates, Time.getTime(), price, partNumber, unitOfMeasure, manufacturer, manufactureCost);
+    }
+
+    /**
+     * Instantiates a new Product. Used for deserialization.
+     *
+     * @param id              id
+     * @param name            name
+     * @param coordinates     coordinates
+     * @param creationDate    creation date
+     * @param price           price
+     * @param partNumber      part number
+     * @param unitOfMeasure   unit of measure
+     * @param manufacturer    manufacturer
+     * @param manufactureCost manufacture cost
+     */
+    public Product(Integer id, @NotNull String name, @NotNull Coordinates coordinates, @NotNull LocalDateTime creationDate, @NotNull Double price, @NotNull String partNumber, @NotNull UnitOfMeasure unitOfMeasure, @NotNull Organization manufacturer, float manufactureCost) {
         if (name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
@@ -80,10 +97,10 @@ public class Product {
         if (partNumber.length() < 18) {
             throw new IllegalArgumentException("Part number length cannot be less than 18");
         }
-        this.id = IdGenerator.generateIntId();
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
-        this.creationDate = Time.getTime();
+        this.creationDate = creationDate;
         this.price = price;
         this.partNumber = partNumber;
         this.unitOfMeasure = unitOfMeasure;

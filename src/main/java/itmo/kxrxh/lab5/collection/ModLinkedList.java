@@ -29,7 +29,7 @@ public class ModLinkedList extends LinkedList<Product> implements BasicCollectio
         // print class name
         System.out.println("Class: " + this.getClass().getSimpleName());
         // print type of elements
-        System.out.println("Type: " + this.getClass().arrayType().descriptorString());
+        System.out.println("Type: " + this.getClass().getComponentType());
         // print size
         System.out.println("Size: " + this.size());
         // print elements

@@ -5,6 +5,7 @@ import itmo.kxrxh.lab5.collection.ModLinkedList;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
 import itmo.kxrxh.lab5.types.OrganizationType;
+import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
 import itmo.kxrxh.lab5.utils.generators.Time;
 import itmo.kxrxh.lab5.utils.xml.XMLCore;
@@ -27,6 +28,7 @@ public final class Main {
     // Initializing .env file (for reading environment variables (Windows))
     // For reading environment variables (Linux) use EnvReader.get(KEY)
     private static final DotEnv dotEnv;
+    private static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
 
     static {
         dotEnv = new DotEnv(".env");
@@ -46,14 +48,13 @@ public final class Main {
         CommandBuilder commandBuilder = new CommandBuilder(collectionManager);
         XMLCore xmlCore = new XMLCore(dotEnv.get("FILE_NAME"), collectionManager);
         try {
-            var xmlc = xmlCore.newXMLReader().parse();
+             var xmlc = xmlCore.newXMLReader(ModLinkedList.class, Product.class.getSimpleName(), buildersPath).parse();
             xmlc.getInfo();
             // xmlc.quickSort(0, xmlc.size() - 1);
             // xmlc.getInfo();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
-
         // Program loop
         while (true) {
             // Reading user input

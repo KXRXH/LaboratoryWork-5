@@ -59,11 +59,14 @@ public final class XMLCore {
     /**
      * Instantiates a new Xml reader.
      *
+     * @param clazz         class of collection
+     *                      (example, ModLinkedList.class)
+     * @param builders_path path to builders
+     *                      (example, "itmo.kxrxh.lab5.types.builders")
      * @return new xml reader
      * @see XmlReader
      */
-    @Contract(" -> new")
-    public @NotNull XmlReader newXMLReader() throws FileNotFoundException {
-        return new XmlReader(this);
+    public @NotNull XmlReader newXMLReader(Class<?> clazz, String item_class, String builders_path) throws FileNotFoundException {
+        return new XmlReader(this, clazz, item_class, builders_path);
     }
 }

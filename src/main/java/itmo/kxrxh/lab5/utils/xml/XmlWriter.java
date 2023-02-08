@@ -1,7 +1,7 @@
 package itmo.kxrxh.lab5.utils.xml;
 
 
-import itmo.kxrxh.lab5.collection.ModLinkedList;
+import itmo.kxrxh.lab5.collection.ProductCollector;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static itmo.kxrxh.lab5.utils.string.StringUtils.toSnakeCase;
+import static itmo.kxrxh.lab5.utils.strings.StringUtils.toSnakeCase;
 
 /**
  * Xml writer class. Used for writing to xml file
@@ -69,7 +69,7 @@ public class XmlWriter extends XMLHandler {
      *
      * @param collection Collection to write
      */
-    public void writeCollection(ModLinkedList collection) {
+    public void writeCollection(ProductCollector collection) {
         writeLine(indentString() + "<" + collection.getClass().getSimpleName() + ">");
         indentLevel++;
         collection.forEach(this::writeObject);

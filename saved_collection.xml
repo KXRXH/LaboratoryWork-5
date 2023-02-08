@@ -14,7 +14,7 @@
             <id>1</id>
             <name>Manufacture 1</name>
             <employees_count>100</employees_count>
-            <type>COMMERCIAL</type>
+            <type>OPEN_JOINT_STOCK_COMPANY</type>
             <Address>
                 <street>Street 1</street>
                 <zip_code>null</zip_code>

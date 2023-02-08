@@ -1,5 +1,9 @@
 package itmo.kxrxh.lab5.types;
 
+import itmo.kxrxh.lab5.utils.annotations.Generated;
+import itmo.kxrxh.lab5.utils.annotations.NonNull;
+import itmo.kxrxh.lab5.utils.annotations.Unique;
+import itmo.kxrxh.lab5.utils.annotations.Value;
 import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import itmo.kxrxh.lab5.utils.generators.Time;
 import org.jetbrains.annotations.NotNull;
@@ -15,30 +19,20 @@ import java.time.LocalDateTime;
  * @see Organization
  */
 public class Product {
-    /**
-     * ID of the product. Is unique, cannot be null, is generated automatically and greater than 0.
-     */
     private final Integer id; // Значение поля должно быть больше 0, Поле не может быть null, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    /**
-     * Name of the product. Cannot be null or empty.
-     */
-    @NotNull
+
     private final String name; // Поле не может быть null, Строка не может быть пустой
-    /**
-     * Coordinates of the product. Cannot be null.
-     */
-    @NotNull
+
     private final Coordinates coordinates; // Поле не может быть null
-    /**
-     * Creation date of the product. Cannot be null, is generated automatically.
-     */
-    @NotNull
+
     private final java.time.LocalDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
     /**
      * Price of the product. Cannot be null, is greater than 0.
      */
+    @Value(min = 0)
     private final Double price; // Значение поля должно быть больше 0
-    @NotNull
+    @NonNull
+    @Unique
     private final String partNumber; // Поле должно быть уникальным, Длина строки должна быть не меньше 18, Поле не может быть null, Строка не может быть пустой
     /**
      * Unit of measure of the product. Cannot be null.
@@ -195,5 +189,20 @@ public class Product {
      */
     public int compareTo(Product pivot) {
         return this.id.compareTo(pivot.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", price=" + price +
+                ", partNumber='" + partNumber + '\'' +
+                ", unitOfMeasure=" + unitOfMeasure +
+                ", manufacturer=" + manufacturer +
+                ", manufactureCost=" + manufactureCost +
+                '}';
     }
 }

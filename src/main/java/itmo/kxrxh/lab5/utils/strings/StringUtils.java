@@ -1,4 +1,4 @@
-package itmo.kxrxh.lab5.utils.string;
+package itmo.kxrxh.lab5.utils.strings;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

@@ -1,8 +1,8 @@
 package itmo.kxrxh.lab5.utils.xml;
 
-import itmo.kxrxh.lab5.collection.ModLinkedList;
+import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.builders.Builder;
-import itmo.kxrxh.lab5.utils.string.StringUtils;
+import itmo.kxrxh.lab5.utils.strings.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static itmo.kxrxh.lab5.utils.string.StringUtils.toCamelCase;
+import static itmo.kxrxh.lab5.utils.strings.StringUtils.toCamelCase;
 
 /**
  * Xml reader class.
@@ -60,7 +60,7 @@ public class XmlReader extends XMLHandler {
      * Parse XML file to collection
      * @return parsed collection
      */
-    public ModLinkedList parse() {
+    public ProductCollector parse() {
         // Skip XML header and root tag
         while (hasNextLine()) {
             String line = readLine();
@@ -68,7 +68,7 @@ public class XmlReader extends XMLHandler {
                 break;
             }
         }
-        return (ModLinkedList) parseItem(collection_class);
+        return (ProductCollector) parseItem(collection_class);
     }
 
     /**
@@ -134,10 +134,10 @@ public class XmlReader extends XMLHandler {
     /**
      * Set value to field
      *
-     * @param item       object to set value
+     * @param item      object to set value
      * @param fieldName field name
-     * @param value      value to set
-     * @param <T>        type of value
+     * @param value     value to set
+     * @param <T>       type of value
      */
     @SuppressWarnings({"unchecked"})
     protected <T> void setValueToField(Object item, String fieldName, T value) {
@@ -173,28 +173,17 @@ public class XmlReader extends XMLHandler {
     private <T> void setFieldValue(Field field, Object item, T value) {
         try {
             Class<?> type = field.getType();
+            if (value == "null") {
+                field.set(item, null);
+                return;
+            }
             switch (type.getSimpleName()) {
-                case "LocalDateTime":
-                    field.set(item, LocalDateTime.parse((String) value));
-                    break;
-                case "Integer":
-                case "int":
-                    field.set(item, Integer.parseInt((String) value));
-                    break;
-                case "Long":
-                case "long":
-                    field.set(item, Long.parseLong((String) value));
-                    break;
-                case "Float":
-                case "float":
-                    field.set(item, Float.parseFloat((String) value));
-                    break;
-                case "Double":
-                case "double":
-                    field.set(item, Double.parseDouble((String) value));
-                    break;
-                default:
-                    field.set(item, value);
+                case "LocalDateTime" -> field.set(item, LocalDateTime.parse((String) value));
+                case "Integer", "int" -> field.set(item, Integer.parseInt((String) value));
+                case "Long", "long" -> field.set(item, Long.parseLong((String) value));
+                case "Float", "float" -> field.set(item, Float.parseFloat((String) value));
+                case "Double", "double" -> field.set(item, Double.parseDouble((String) value));
+                default -> field.set(item, value);
             }
         } catch (IllegalAccessException e) {
             System.out.println("Error while parsing " + field.getType().getSimpleName() + ". Check if value is " + field.getType().getSimpleName());

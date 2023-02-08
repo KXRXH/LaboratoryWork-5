@@ -1,14 +1,11 @@
 package itmo.kxrxh.lab5.types;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * The type Coordinates.
  *
  * @author kxrxh
  */
 public class Coordinates {
-    @NotNull
     private final Integer x; // Максимальное значение поля: 444, Поле не может быть null
     private final double y; // Значение поля должно быть больше -368
 
@@ -27,10 +24,18 @@ public class Coordinates {
             throw new IllegalArgumentException("X cannot be greater than 444");
         }
         // min value of x is -368
-        if (x <= -368) {
+        if (x < -368) {
             throw new IllegalArgumentException("X cannot be less than -368");
         }
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

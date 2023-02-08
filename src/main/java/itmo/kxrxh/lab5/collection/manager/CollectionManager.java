@@ -1,16 +1,15 @@
 package itmo.kxrxh.lab5.collection.manager;
 
-import itmo.kxrxh.lab5.collection.ModLinkedList;
+import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.TestOnly;
 
 /**
  * Record for managing collection
  *
  * @author kxrxh
  */
-public record CollectionManager(ModLinkedList collection) {
+public record CollectionManager(ProductCollector collection) {
     /**
      * Clear collection
      */
@@ -60,5 +59,9 @@ public record CollectionManager(ModLinkedList collection) {
      */
     public void removeById(long id) {
         collection.removeById(id);
+    }
+
+    public void add(Product product) {
+        collection.add(product);
     }
 }

@@ -6,7 +6,7 @@ import itmo.kxrxh.lab5.types.Product;
 import java.util.LinkedList;
 
 /**
- * ModLinkedList class
+ * ProductCollector class
  *
  * @author kxrxh
  * @see LinkedList
@@ -14,11 +14,11 @@ import java.util.LinkedList;
  * @see BasicCollection
  * @see SortableCollection
  */
-public class ModLinkedList extends LinkedList<Product> implements BasicCollection, SortableCollection {
+public class ProductCollector extends LinkedList<Product> implements BasicCollection, SortableCollection {
     /**
-     * Instantiates a new Mod linked list.
+     * Instantiates a new Product collector.
      */
-    public ModLinkedList() {
+    public ProductCollector() {
         super();
     }
 
@@ -34,7 +34,9 @@ public class ModLinkedList extends LinkedList<Product> implements BasicCollectio
         System.out.println("Type of collection's items: " + this.getFirst().getClass().getName());
         System.out.println("Size: " + this.size());
         System.out.println("List of elements:");
-        System.out.println(this);
+        System.out.println("[");
+        this.forEach(System.out::println);
+        System.out.println("]");
     }
 
     /**
@@ -83,13 +85,6 @@ public class ModLinkedList extends LinkedList<Product> implements BasicCollectio
         quickSort(pivotIndex + 1, right);
     }
 
-    /**
-     * Partition. Used in quickSort.
-     *
-     * @param low  begin of the LinkedList (index)
-     * @param high end of the LinkedList (index)
-     * @return index of the pivot
-     */
     private int partition(int low, int high) {
         Product pivot = get(high);
         int i = low - 1;

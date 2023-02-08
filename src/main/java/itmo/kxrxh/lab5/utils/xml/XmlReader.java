@@ -139,7 +139,7 @@ public class XmlReader extends XMLHandler {
      * @param value      value to set
      * @param <T>        type of value
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked"})
     protected <T> void setValueToField(Object item, String fieldName, T value) {
         if (item instanceof Collection<?>) {
             ((Collection<T>) item).add(value);

@@ -2,6 +2,7 @@ package itmo.kxrxh.lab5.utils.xml;
 
 
 import itmo.kxrxh.lab5.collection.ModLinkedList;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -56,7 +57,6 @@ public class XmlWriter extends XMLHandler {
         try {
             bufferedOutput.write(line.getBytes());
             bufferedOutput.flush();
-
         } catch (IOException e) {
             System.out.println("Error while writing to file");
         }
@@ -64,6 +64,11 @@ public class XmlWriter extends XMLHandler {
 
     private int indentLevel = 0;
 
+    /**
+     * Write collection to file in xml format
+     *
+     * @param collection Collection to write
+     */
     public void writeCollection(ModLinkedList collection) {
         writeLine(indentString() + "<" + collection.getClass().getSimpleName() + ">");
         indentLevel++;
@@ -72,6 +77,11 @@ public class XmlWriter extends XMLHandler {
         writeLine(indentString() + "</" + collection.getClass().getSimpleName() + ">");
     }
 
+    /**
+     * Write object to file in xml format
+     *
+     * @param object Object to write
+     */
     private void writeObject(Object object) {
         writeLine(indentString() + "<" + object.getClass().getSimpleName() + ">");
         indentLevel++;
@@ -92,7 +102,12 @@ public class XmlWriter extends XMLHandler {
         writeLine(indentString() + "</" + object.getClass().getSimpleName() + ">");
     }
 
-    private String indentString() {
+    /**
+     * Generate indent string
+     *
+     * @return Indent string
+     */
+    private @NotNull String indentString() {
         return new String(new char[indentLevel * 4]).replace("\0", " ");
     }
 }

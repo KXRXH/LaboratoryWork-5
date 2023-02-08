@@ -49,7 +49,8 @@ public final class Main {
         XMLCore xmlCore = new XMLCore(dotEnv.get("FILE_NAME"), collectionManager);
         try {
              var xmlc = xmlCore.newXMLReader(ModLinkedList.class, Product.class.getSimpleName(), buildersPath).parse();
-            xmlc.getInfo();
+             xmlc.getInfo();
+             xmlCore.newXMLWriter().writeCollection(xmlc);
             // xmlc.quickSort(0, xmlc.size() - 1);
             // xmlc.getInfo();
         } catch (FileNotFoundException e) {

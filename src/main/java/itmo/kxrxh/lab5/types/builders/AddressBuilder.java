@@ -13,10 +13,10 @@ import itmo.kxrxh.lab5.types.Address;
  */
 public final class AddressBuilder implements Builder {
     private String street;
-    private String zipcode;
+    private String zipCode;
 
     @Override
     public Address build() {
-        return new Address(street, zipcode);
+        return new Address(street, zipCode);
     }
 }

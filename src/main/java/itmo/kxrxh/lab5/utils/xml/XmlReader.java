@@ -3,15 +3,15 @@ package itmo.kxrxh.lab5.utils.xml;
 import itmo.kxrxh.lab5.collection.ModLinkedList;
 import itmo.kxrxh.lab5.types.builders.Builder;
 import itmo.kxrxh.lab5.utils.string.StringUtils;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static itmo.kxrxh.lab5.utils.string.StringUtils.toCamelCase;
 
 /**
  * Xml reader class.
@@ -35,7 +35,7 @@ public class XmlReader extends XMLHandler {
         this.scanner = new Scanner(new File(xmlCore.fileName));
         this.collection_class = collection_class;
         this.builders_path = builders_path;
-        this.item_name = item_name.toLowerCase();
+        this.item_name = item_name;
     }
 
     /**
@@ -43,7 +43,7 @@ public class XmlReader extends XMLHandler {
      *
      * @return next line
      */
-    public String readLine() {
+    protected String readLine() {
         return scanner.nextLine();
     }
 
@@ -52,7 +52,7 @@ public class XmlReader extends XMLHandler {
      *
      * @return true if file has next line
      */
-    public boolean hasNextLine() {
+    protected boolean hasNextLine() {
         return scanner.hasNextLine();
     }
 
@@ -62,8 +62,6 @@ public class XmlReader extends XMLHandler {
      */
     public ModLinkedList parse() {
         // Skip XML header and root tag
-
-
         while (hasNextLine()) {
             String line = readLine();
             if (!line.contains("<?") && line.contains("<")) {
@@ -126,11 +124,8 @@ public class XmlReader extends XMLHandler {
                 } catch (ClassNotFoundException e) {
                     System.out.println("Class not found. Skipping...");
                 }
-            } else {
-                // if tags contains tag product, set value to field
-                if (tags.contains(item_name)) {
-                    setValueToField(item, split[0], split[1]);
-                }
+            } else if (tags.contains(item_name)) {
+                setValueToField(item, split[0], split[1]);
             }
         }
         return item;
@@ -140,79 +135,69 @@ public class XmlReader extends XMLHandler {
      * Set value to field
      *
      * @param item       object to set value
-     * @param field_name field name
+     * @param fieldName field name
      * @param value      value to set
      * @param <T>        type of value
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected <T> void setValueToField(Object item, String field_name, T value) {
+    protected <T> void setValueToField(Object item, String fieldName, T value) {
         if (item instanceof Collection<?>) {
-            // Unsafe cast, but it's ok with right xml file
             ((Collection<T>) item).add(value);
             return;
         }
-        // Get field by name. If field not found, return null
-        Field field = Arrays.stream(item.getClass().getDeclaredFields()).filter(f -> f.getName().equals(field_name)).findFirst().orElse(null);
-        if (Objects.isNull(field)) {
-            System.out.printf("Field %s not found%n", field_name);
+        Field field = findField(item, toCamelCase(fieldName));
+        if (field == null) {
+            System.out.println("Field " + fieldName + " not found");
             return;
         }
         field.setAccessible(true);
-        Class<?> type = field.getType();
-        // Get value of generic enum type
-        if (type.isEnum()) {
-            try {
-                field.set(item, Enum.valueOf((Class<Enum>) type, (String) value));
-            } catch (IllegalAccessException e) {
-                System.out.printf("Error while parsing enum. Check if value is enum or enum has this value: %s%n", value);
-            }
-            return;
+        if (field.getType().isEnum()) {
+            setEnumValue(field, item, value);
+        } else {
+            setFieldValue(field, item, value);
         }
-        // Set value to field.
-        switch (type.getSimpleName()) {
-            case "LocalDateTime" -> {
-                try {
+    }
+
+    private Field findField(Object item, String fieldName) {
+        return Arrays.stream(item.getClass().getDeclaredFields()).filter(f -> f.getName().equals(fieldName)).findFirst().orElse(null);
+    }
+
+    private <T> void setEnumValue(Field field, Object item, T value) {
+        try {
+            field.set(item, Enum.valueOf((Class<Enum>) field.getType(), (String) value));
+        } catch (IllegalAccessException e) {
+            System.out.println("Error while parsing enum. Check if value is enum or enum has this value: " + value);
+        }
+    }
+
+    private <T> void setFieldValue(Field field, Object item, T value) {
+        try {
+            Class<?> type = field.getType();
+            switch (type.getSimpleName()) {
+                case "LocalDateTime":
                     field.set(item, LocalDateTime.parse((String) value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("Error while parsing LocalDateTime. Check if value is LocalDateTime");
-                }
-            }
-            case "Integer", "int" -> {
-                try {
+                    break;
+                case "Integer":
+                case "int":
                     field.set(item, Integer.parseInt((String) value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("Error while parsing Integer. Check if value is integer");
-                }
-            }
-            case "Long", "long" -> {
-                try {
+                    break;
+                case "Long":
+                case "long":
                     field.set(item, Long.parseLong((String) value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("Error while parsing Long. Check if value is long");
-                }
-            }
-            case "Float", "float" -> {
-                try {
+                    break;
+                case "Float":
+                case "float":
                     field.set(item, Float.parseFloat((String) value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("Error while parsing Float. Check if value is float");
-                }
-            }
-            case "Double", "double" -> {
-                try {
+                    break;
+                case "Double":
+                case "double":
                     field.set(item, Double.parseDouble((String) value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("Error while parsing Double. Check if value is double");
-                }
-            }
-            default -> {
-                // Default case is String and other classes
-                try {
+                    break;
+                default:
                     field.set(item, value);
-                } catch (IllegalAccessException e) {
-                    System.out.printf("Error while parsing %s. Check if value is %s%n", type.getSimpleName(), type.getSimpleName());
-                }
             }
+        } catch (IllegalAccessException e) {
+            System.out.println("Error while parsing " + field.getType().getSimpleName() + ". Check if value is " + field.getType().getSimpleName());
         }
     }
 }

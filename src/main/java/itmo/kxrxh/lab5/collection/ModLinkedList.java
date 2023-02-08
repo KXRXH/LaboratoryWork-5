@@ -26,14 +26,15 @@ public class ModLinkedList extends LinkedList<Product> implements BasicCollectio
      * Print info about collection
      */
     public void getInfo() {
-        // print class name
-        System.out.println("Class: " + this.getClass().getSimpleName());
-        // print type of elements
-        System.out.println("Type: " + this.getClass().getComponentType());
-        // print size
+        System.out.println("Name of the collection: " + this.getClass().getName());
+        if (this.isEmpty()) {
+            System.out.println("The linked list is empty.");
+            return;
+        }
+        System.out.println("Type of collection's items: " + this.getFirst().getClass().getName());
         System.out.println("Size: " + this.size());
-        // print elements
-        System.out.println("Elements: " + this);
+        System.out.println("List of elements:");
+        System.out.println(this);
     }
 
     /**
@@ -73,11 +74,13 @@ public class ModLinkedList extends LinkedList<Product> implements BasicCollectio
      */
     @Override
     public void quickSort(int left, int right) {
-        if (left < right) {
-            int pi = partition(left, right);
-            quickSort(left, pi - 1);
-            quickSort(pi + 1, right);
+        if (left >= right) {
+            return;
         }
+
+        int pivotIndex = partition(left, right);
+        quickSort(left, pivotIndex - 1);
+        quickSort(pivotIndex + 1, right);
     }
 
     /**
@@ -88,19 +91,22 @@ public class ModLinkedList extends LinkedList<Product> implements BasicCollectio
      * @return index of the pivot
      */
     private int partition(int low, int high) {
-        Product pivot = this.get(high);
-        int i = (low - 1);
+        Product pivot = get(high);
+        int i = low - 1;
         for (int j = low; j < high; j++) {
-            if (this.get(j).compareTo(pivot) < 0) {
+            if (get(j).compareTo(pivot) < 0) {
                 i++;
-                Product temp = this.get(i);
-                this.set(i, this.get(j));
-                this.set(j, temp);
+                swap(i, j);
             }
         }
-        Product temp = this.get(i + 1);
-        this.set(i + 1, this.get(high));
-        this.set(high, temp);
+        swap(i + 1, high);
         return i + 1;
+    }
+
+
+    private void swap(int i, int j) {
+        Product temp = get(i);
+        set(i, get(j));
+        set(j, temp);
     }
 }

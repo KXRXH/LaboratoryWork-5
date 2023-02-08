@@ -14,7 +14,7 @@ import itmo.kxrxh.lab5.types.OrganizationType;
 public final class OrganizationBuilder implements Builder {
     private long id;
     private String name;
-    private int employees_count;
+    private int employeesCount;
 
     private OrganizationType type;
 
@@ -22,6 +22,6 @@ public final class OrganizationBuilder implements Builder {
 
     @Override
     public Object build() {
-        return new Organization(id, name, employees_count, type, address);
+        return new Organization(id, name, employeesCount, type, address);
     }
 }

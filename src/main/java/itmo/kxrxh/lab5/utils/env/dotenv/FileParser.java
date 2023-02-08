@@ -1,7 +1,5 @@
 package itmo.kxrxh.lab5.utils.env.dotenv;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -20,27 +18,21 @@ public final class FileParser {
      * @param path Path to .env file.
      * @return Map of environment variables. Key - variable name, value - variable value.
      */
-    public static @NotNull Map<String, String> parse(String path) {
-        File file = new File(path);
-        Scanner scanner;
-        try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("DotEnv: File not found");
-        }
+    public static Map<String, String> parse(String path) {
         Map<String, String> result = new HashMap<>();
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.startsWith("#")) {
-                continue;
+        try (Scanner scanner = new Scanner(new File(path))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.startsWith("#") || !line.contains("=")) {
+                    continue;
+                }
+                String[] split = line.split("=", 2);
+                result.put(split[0], split[1]);
             }
-            String[] split = line.split("=", 2);
-            if (split.length != 2) {
-                continue;
-            }
-            result.put(split[0], split[1]);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("DotEnv: File not found", e);
         }
-        scanner.close();
         return result;
     }
+
 }

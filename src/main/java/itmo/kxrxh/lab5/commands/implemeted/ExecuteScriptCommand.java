@@ -8,6 +8,7 @@ import itmo.kxrxh.lab5.commands.Executable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -41,27 +42,20 @@ public class ExecuteScriptCommand extends CollectionDependent {
      * @param fileName Name of file to read
      */
     private void readFile(String fileName) {
-        ArrayList<String> lines = new ArrayList<>();
-        Scanner scanner;
-
-        // Read file
-        File scriptFile = new File(fileName);
-        try {
-            scanner = new Scanner(scriptFile);
+        List<String> lines = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
+            }
         } catch (FileNotFoundException e) {
             System.out.println("No such script file: " + fileName);
             return;
         }
-        while (scanner.hasNextLine()) {
-            lines.add(scanner.nextLine());
-        }
-        // Execute commands
+
         for (String line : lines) {
-            // Getting command object
             Executable executable = commandBuilder.buildCommand(line);
             executable.execute();
         }
-        scanner.close();
     }
 
     @Override

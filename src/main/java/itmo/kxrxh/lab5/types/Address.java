@@ -8,14 +8,8 @@ import org.jetbrains.annotations.NotNull;
  * @author kxrxh
  */
 public class Address {
-    /**
-     * Street name. Cannot be empty or null.
-     */
-    @NotNull
     private final String street; // Строка не может быть пустой, Поле не может быть null
-    /**
-     * Zip code. Can be null.
-     */
+
     private final String zipCode; // Поле может быть null
 
     /**

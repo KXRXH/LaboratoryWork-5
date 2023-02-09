@@ -12,28 +12,14 @@ import org.jetbrains.annotations.NotNull;
  * @see Address
  */
 public class Organization {
-    /**
-     * Unique id
-     */
     private final long id;
-    /**
-     * Name of the organization
-     */
-    @NotNull
+
     private final String name;
-    /**
-     * Number of employees
-     */
+
     private final int employeesCount;
-    /**
-     * Type of the organization
-     */
-    @NotNull
+
     private final OrganizationType type;
-    /**
-     * Postal address of the organization
-     */
-    @NotNull
+
     private final Address postalAddress;
 
     /**
@@ -115,5 +101,10 @@ public class Organization {
      */
     public @NotNull Address getPostalAddress() {
         return postalAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", employeesCount=" + employeesCount + ", type=" + type + ", postalAddress=" + postalAddress + '}';
     }
 }

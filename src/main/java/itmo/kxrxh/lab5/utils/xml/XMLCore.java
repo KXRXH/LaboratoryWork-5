@@ -18,20 +18,6 @@ import java.io.FileNotFoundException;
 public final class XMLCore {
     final String fileName;
     final CollectionManager collectionManager;
-    final String indent;
-
-    /**
-     * Instantiates a new Xml core.
-     *
-     * @param fileName          file name
-     * @param collectionManager collection manager
-     * @param indent            indent (default is " ")
-     */
-    public XMLCore(String fileName, CollectionManager collectionManager, String indent) {
-        this.fileName = fileName;
-        this.collectionManager = collectionManager;
-        this.indent = indent;
-    }
 
     /**
      * Instantiates a new Xml core.
@@ -42,7 +28,6 @@ public final class XMLCore {
     public XMLCore(String fileName, CollectionManager collectionManager) {
         this.fileName = fileName;
         this.collectionManager = collectionManager;
-        this.indent = " ";
     }
 
     /**
@@ -59,11 +44,14 @@ public final class XMLCore {
     /**
      * Instantiates a new Xml reader.
      *
+     * @param clazz         class of collection
+     *                      (example, ModLinkedList.class)
+     * @param builders_path path to builders
+     *                      (example, "itmo.kxrxh.lab5.types.builders")
      * @return new xml reader
      * @see XmlReader
      */
-    @Contract(" -> new")
-    public @NotNull XmlReader newXMLReader() throws FileNotFoundException {
-        return new XmlReader(this);
+    public @NotNull XmlReader newXMLReader(Class<?> clazz, String item_class, String builders_path) throws FileNotFoundException {
+        return new XmlReader(this, clazz, item_class, builders_path);
     }
 }

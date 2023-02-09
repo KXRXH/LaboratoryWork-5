@@ -25,13 +25,13 @@ import java.util.Scanner;
  * @author kxrxh
  */
 public final class AddCommand extends CollectionDependent {
+    private static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
     /**
      * Instantiates a new Collection dependent.
      *
      * @param collectionManager Collection manager
      */
     private final Scanner scanner = new Scanner(System.in);
-    private static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
 
     public AddCommand(CollectionManager collectionManager) {
         super(collectionManager);

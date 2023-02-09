@@ -22,6 +22,7 @@ import static itmo.kxrxh.lab5.utils.strings.StringUtils.toSnakeCase;
  */
 public class XmlWriter extends XMLHandler {
     private final BufferedOutputStream bufferedOutput;
+    private int indentLevel = 0;
 
     protected XmlWriter(XMLCore xmlCore) {
         super(xmlCore);
@@ -61,8 +62,6 @@ public class XmlWriter extends XMLHandler {
             System.out.println("Error while writing to file");
         }
     }
-
-    private int indentLevel = 0;
 
     /**
      * Write collection to file in xml format

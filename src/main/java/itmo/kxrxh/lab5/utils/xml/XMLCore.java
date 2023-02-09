@@ -18,20 +18,6 @@ import java.io.FileNotFoundException;
 public final class XMLCore {
     final String fileName;
     final CollectionManager collectionManager;
-    final String indent;
-
-    /**
-     * Instantiates a new Xml core.
-     *
-     * @param fileName          file name
-     * @param collectionManager collection manager
-     * @param indent            indent (default is " ")
-     */
-    public XMLCore(String fileName, CollectionManager collectionManager, String indent) {
-        this.fileName = fileName;
-        this.collectionManager = collectionManager;
-        this.indent = indent;
-    }
 
     /**
      * Instantiates a new Xml core.
@@ -42,7 +28,6 @@ public final class XMLCore {
     public XMLCore(String fileName, CollectionManager collectionManager) {
         this.fileName = fileName;
         this.collectionManager = collectionManager;
-        this.indent = " ";
     }
 
     /**

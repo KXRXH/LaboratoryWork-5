@@ -1,9 +1,5 @@
 package itmo.kxrxh.lab5.types;
 
-import itmo.kxrxh.lab5.utils.annotations.Generated;
-import itmo.kxrxh.lab5.utils.annotations.NonNull;
-import itmo.kxrxh.lab5.utils.annotations.Unique;
-import itmo.kxrxh.lab5.utils.annotations.Value;
 import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import itmo.kxrxh.lab5.utils.generators.Time;
 import org.jetbrains.annotations.NotNull;
@@ -26,28 +22,11 @@ public class Product {
     private final Coordinates coordinates; // Поле не может быть null
 
     private final java.time.LocalDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    /**
-     * Price of the product. Cannot be null, is greater than 0.
-     */
-    @Value(min = 0)
     private final Double price; // Значение поля должно быть больше 0
-    @NonNull
-    @Unique
     private final String partNumber; // Поле должно быть уникальным, Длина строки должна быть не меньше 18, Поле не может быть null, Строка не может быть пустой
-    /**
-     * Unit of measure of the product. Cannot be null.
-     */
-    @NotNull
     private final UnitOfMeasure unitOfMeasure; // Поле не может быть null
 
-    /**
-     * Manufacturer of the product. Cannot be null.
-     */
-    @NotNull
     private final Organization manufacturer; // Поле не может быть null
-    /**
-     * Manufacture cost of the product
-     */
     private final float manufactureCost;
 
     /**
@@ -193,16 +172,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
-                ", price=" + price +
-                ", partNumber='" + partNumber + '\'' +
-                ", unitOfMeasure=" + unitOfMeasure +
-                ", manufacturer=" + manufacturer +
-                ", manufactureCost=" + manufactureCost +
-                '}';
+        return "Product{" + "id=" + id + ", name='" + name + '\'' + ", coordinates=" + coordinates + ", creationDate=" + creationDate + ", price=" + price + ", partNumber='" + partNumber + '\'' + ", unitOfMeasure=" + unitOfMeasure + ", manufacturer=" + manufacturer + ", manufactureCost=" + manufactureCost + '}';
     }
 }

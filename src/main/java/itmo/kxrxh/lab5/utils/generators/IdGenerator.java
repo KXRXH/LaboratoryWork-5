@@ -23,7 +23,7 @@ public final class IdGenerator {
      *
      * @return unique id
      */
-    public static long generateLongId() {
+    public static Long generateLongId() {
         return long_id_counter.incrementAndGet();
     }
 
@@ -32,7 +32,7 @@ public final class IdGenerator {
      *
      * @return unique id
      */
-    public static int generateIntId() {
+    public static Integer generateIntId() {
         return int_id_counter.incrementAndGet();
     }
 }

@@ -43,6 +43,7 @@ public class CommandBuilder {
             case "sum_of_price" -> new SumOfPriceCommand(collectionManager);
             case "history" -> new HistoryCommand(history);
             case "exit" -> new ExitCommand();
+            case "add" -> new AddCommand(collectionManager);
             case "execute_script" -> new ExecuteScriptCommand(collectionManager, commandArgs, this);
             case "remove_by_id" -> new RemoveByIdCommand(collectionManager, commandArgs);
             default -> new UnknownCommand();

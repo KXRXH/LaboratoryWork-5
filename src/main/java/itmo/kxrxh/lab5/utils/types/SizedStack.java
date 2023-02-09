@@ -24,7 +24,6 @@ public class SizedStack<T> extends Stack<T> {
      * Pushes an item onto the top of this stack and removes the first element if stack size is greater than maxSize.
      *
      * @param item the item to be pushed onto this stack.
-     * @return the item argument.
      */
     @Override
     public T push(T item) {

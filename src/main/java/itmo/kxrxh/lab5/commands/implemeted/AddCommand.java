@@ -4,15 +4,18 @@ import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
+import itmo.kxrxh.lab5.utils.Terminal.Colors;
 import itmo.kxrxh.lab5.utils.annotations.Generated;
 import itmo.kxrxh.lab5.utils.annotations.Length;
 import itmo.kxrxh.lab5.utils.annotations.NonNull;
 import itmo.kxrxh.lab5.utils.annotations.Value;
 import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import itmo.kxrxh.lab5.utils.generators.Time;
+import itmo.kxrxh.lab5.utils.strings.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -42,6 +45,7 @@ public final class AddCommand extends CollectionDependent {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T readObject(Class<T> objectType) {
         Class<?> builderClass;
         try {
@@ -58,11 +62,22 @@ public final class AddCommand extends CollectionDependent {
             System.out.println("Can't create builder");
             return null;
         }
-        System.out.println(objectType.getSimpleName());
+        System.out.printf("%s%s%s%n", Colors.ANSI_RED, objectType.getSimpleName(), Colors.ANSI_RESET);
         for (Field field : builderClass.getDeclaredFields()) {
             field.setAccessible(true);
             if (field.getType().isEnum()) {
-                setValueToField(field, object, stringToEnum(field, scanner.nextLine()));
+                System.out.printf("\u001B[35m%s (%s): %n\u001B[0m", StringUtils.capitalize(field.getName()), field.getType().getSimpleName());
+                while (true) {
+                    System.out.print(">: ");
+                    String value = scanner.nextLine();
+                    try {
+                        setValueToField(field, object, stringToEnum(field, value));
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.printf("%sEnum value is not valid%n", Colors.ANSI_RED);
+                        System.out.printf("%sEnum constants: %s%n" + Colors.ANSI_RESET, Colors.ANSI_RED, Arrays.toString(field.getType().getEnumConstants()));
+                    }
+                }
                 continue;
             }
             if (field.isAnnotationPresent(Generated.class)) {
@@ -72,10 +87,18 @@ public final class AddCommand extends CollectionDependent {
             // if field type is built-in type or String then read it
             switch (field.getType().getSimpleName()) {
                 case "Integer", "int" -> {
-                    System.out.println(field.getName() + " (int): ");
+                    System.out.printf("\u001B[35m%s (int): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
                         System.out.print(">: ");
-                        Integer value = scanner.nextInt();
+                        Integer value;
+                        try {
+                            value = scanner.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.printf("%sInput is not of type Integer%s%n", Colors.ANSI_RED, Colors.ANSI_RESET);
+                            scanner.nextLine();
+                            continue;
+                        }
+                        scanner.nextLine();
                         if (checkNumber(field, value)) {
                             setValueToField(field, object, value);
                             break;
@@ -83,10 +106,11 @@ public final class AddCommand extends CollectionDependent {
                     }
                 }
                 case "Long", "long" -> {
-                    System.out.println(field.getName() + " (long): ");
+                    System.out.printf("\u001B[35m%s (long): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
                         System.out.print(">: ");
                         Long value = scanner.nextLong();
+                        scanner.nextLine();
                         if (checkNumber(field, value)) {
                             setValueToField(field, object, value);
                             break;
@@ -94,10 +118,11 @@ public final class AddCommand extends CollectionDependent {
                     }
                 }
                 case "Double", "double" -> {
-                    System.out.println(field.getName() + " (double): ");
+                    System.out.printf("\u001B[35m%s (double): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
                         System.out.print(">: ");
                         Double value = scanner.nextDouble();
+                        scanner.nextLine();
                         if (checkNumber(field, value)) {
                             setValueToField(field, object, value);
                             break;
@@ -105,10 +130,11 @@ public final class AddCommand extends CollectionDependent {
                     }
                 }
                 case "Float", "float" -> {
-                    System.out.println(field.getName() + " (float): ");
+                    System.out.printf("\u001B[35m%s (float): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
                         System.out.print(">: ");
                         Float value = scanner.nextFloat();
+                        scanner.nextLine();
                         if (checkNumber(field, value)) {
                             setValueToField(field, object, value);
                             break;
@@ -116,7 +142,7 @@ public final class AddCommand extends CollectionDependent {
                     }
                 }
                 case "String" -> {
-                    System.out.println(field.getName() + " (String): ");
+                    System.out.printf("\u001B[35m%s (String): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
                         System.out.print(">: ");
                         String value = scanner.nextLine();
@@ -137,7 +163,7 @@ public final class AddCommand extends CollectionDependent {
                 }
             }
         }
-        return (T) (object != null ? object.build() : null);
+        return (T) object.build();
     }
 
     private <T extends Number> boolean checkNumber(Field field, T value) {
@@ -147,13 +173,11 @@ public final class AddCommand extends CollectionDependent {
         }
         if (valueAnnotation != null) {
             if (value.doubleValue() <= valueAnnotation.min()) {
-                System.out.printf("Value must be greater than " + valueAnnotation.min());
+                System.out.printf("%sValue must be greater than %s%s".formatted(Colors.ANSI_RED, valueAnnotation.min(), Colors.ANSI_RESET));
                 return false;
             }
-            System.out.println(value.doubleValue());
-            System.out.println(valueAnnotation.max());
             if (value.doubleValue() >= valueAnnotation.max()) {
-                System.out.printf("Value must be less than " + valueAnnotation.max());
+                System.out.printf("%sValue must be less than %s%s".formatted(Colors.ANSI_RED, valueAnnotation.max(), Colors.ANSI_RESET));
                 return false;
             }
         }
@@ -168,11 +192,11 @@ public final class AddCommand extends CollectionDependent {
         if (field.isAnnotationPresent(Length.class)) {
             Length lengthAnnotation = field.getAnnotation(Length.class);
             if (value.length() < lengthAnnotation.min()) {
-                System.out.printf("Length must be greater than %d\n", lengthAnnotation.min() - 1);
+                System.out.printf("\u001B[31mLength must be greater than %d\n\u001B[0m", lengthAnnotation.min() - 1);
                 return false;
             }
             if (value.length() > lengthAnnotation.max()) {
-                System.out.printf("Length must be less than %d\n", lengthAnnotation.max() + 1);
+                System.out.printf("\u001B[31mLength must be less than %d\n\u001B[0m", lengthAnnotation.max() + 1);
                 return false;
             }
         }
@@ -192,13 +216,15 @@ public final class AddCommand extends CollectionDependent {
         try {
             field.set(object, value);
         } catch (IllegalAccessException e) {
-            System.out.println("Can't set value to field");
+            System.out.println("\u001B[31mCan't set value to field\u001B[0m");
         } catch (InputMismatchException e) {
-            System.out.println("Wrong input" + e.getMessage());
+            System.out.printf("%sWrong input%s%s%n", Colors.ANSI_RED, e.getMessage(), Colors.ANSI_RESET);
         }
     }
 
-    private <T> T stringToEnum(Field field, String value) {
-        return (T) Enum.valueOf((Class<Enum>) field.getType(), value);
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private Enum<?> stringToEnum(Field field, String value) {
+        return (Enum<?>) Enum.valueOf((Class<Enum>) field.getType(), value);
+
     }
 }

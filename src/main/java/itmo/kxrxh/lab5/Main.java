@@ -5,6 +5,7 @@ import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
 import itmo.kxrxh.lab5.types.Product;
+import itmo.kxrxh.lab5.utils.Terminal.Colors;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
 import itmo.kxrxh.lab5.utils.xml.XMLCore;
 
@@ -46,17 +47,16 @@ public final class Main {
         XMLCore xmlCore = new XMLCore(dotEnv.get("FILE_NAME"), collectionManager);
         try {
             ProductCollector xmlc = xmlCore.newXMLReader(ProductCollector.class, Product.class.getSimpleName(), buildersPath).parse();
-            xmlCore.newXMLWriter().writeCollection(xmlc);
-            xmlc.quickSort(0, xmlc.size() - 1);
-            xmlc.getInfo();
+            modLinkedList.addAll(xmlc);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
         // Program loop
         while (true) {
             // Reading user input
-            System.out.print(">> ");
+            System.out.print(Colors.ANSI_PURPLE + ">> " + Colors.ANSI_WHITE);
             String userInput = in.nextLine();
+            System.out.print(Colors.ANSI_RESET);
             try {
                 commandBuilder.buildCommand(userInput).execute();
             } catch (Exception e) {

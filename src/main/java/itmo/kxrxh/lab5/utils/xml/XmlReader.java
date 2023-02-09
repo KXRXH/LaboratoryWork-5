@@ -162,6 +162,7 @@ public class XmlReader extends XMLHandler {
         return Arrays.stream(item.getClass().getDeclaredFields()).filter(f -> f.getName().equals(fieldName)).findFirst().orElse(null);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private <T> void setEnumValue(Field field, Object item, T value) {
         try {
             field.set(item, Enum.valueOf((Class<Enum>) field.getType(), (String) value));

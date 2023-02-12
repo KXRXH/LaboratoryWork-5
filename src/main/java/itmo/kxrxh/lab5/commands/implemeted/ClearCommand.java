@@ -21,6 +21,6 @@ public final class ClearCommand extends CollectionDependent {
 
     @Override
     public void execute() {
-        getCollectionManager().clear();
+        collectionManager.clear();
     }
 }

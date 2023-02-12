@@ -22,6 +22,6 @@ public final class ShowCommand extends CollectionDependent {
 
     @Override
     public void execute() {
-        getCollectionManager().show();
+        collectionManager.show();
     }
 }

@@ -1,9 +1,11 @@
 package itmo.kxrxh.lab5.utils.xml;
 
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
+import itmo.kxrxh.lab5.utils.Terminal.Colors;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -25,7 +27,14 @@ public final class XMLCore {
      * @param fileName          file name
      * @param collectionManager collection manager
      */
-    public XMLCore(String fileName, CollectionManager collectionManager) {
+    public XMLCore(String fileName, CollectionManager collectionManager) throws FileNotFoundException {
+        if (fileName == null) {
+            System.out.println(Colors.ANSI_CYAN + "File name is null. Using default file name: collection.xml" + Colors.ANSI_RESET);
+            fileName = "collection.xml";
+        }
+        if (collectionManager == null) {
+            throw new NullPointerException("Collection manager is null");
+        }
         this.fileName = fileName;
         this.collectionManager = collectionManager;
     }
@@ -52,6 +61,10 @@ public final class XMLCore {
      * @see XmlReader
      */
     public @NotNull XmlReader newXMLReader(Class<?> clazz, String item_class, String builders_path) throws FileNotFoundException {
+        File file = new File(fileName);
+        if (!file.exists() || file.isDirectory()) {
+            throw new FileNotFoundException("File not found");
+        }
         return new XmlReader(this, clazz, item_class, builders_path);
     }
 }

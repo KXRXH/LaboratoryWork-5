@@ -13,7 +13,7 @@ public abstract class CollectionDependent implements Executable {
      *
      * @see CollectionManager
      */
-    private final CollectionManager collectionManager;
+    protected final CollectionManager collectionManager;
 
     /**
      * Instantiates a new Collection dependent.

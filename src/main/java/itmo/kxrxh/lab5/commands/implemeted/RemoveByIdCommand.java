@@ -28,6 +28,6 @@ public final class RemoveByIdCommand extends CollectionDependent {
 
     @Override
     public void execute() {
-        getCollectionManager().removeById(id);
+        collectionManager.removeById(id);
     }
 }

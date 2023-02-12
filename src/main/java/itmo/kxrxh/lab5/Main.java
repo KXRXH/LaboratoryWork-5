@@ -1,16 +1,7 @@
 package itmo.kxrxh.lab5;
 
 
-import itmo.kxrxh.lab5.collection.ProductCollector;
-import itmo.kxrxh.lab5.collection.manager.CollectionManager;
-import itmo.kxrxh.lab5.commands.CommandBuilder;
-import itmo.kxrxh.lab5.types.Product;
-import itmo.kxrxh.lab5.utils.Terminal.Colors;
-import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
-import itmo.kxrxh.lab5.utils.xml.XMLCore;
-
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import itmo.kxrxh.lab5.collection.CollectionCore;
 
 
 /**
@@ -20,19 +11,7 @@ import java.util.Scanner;
  * @version 369491
  */
 public final class Main {
-    // Initializing collection
-    private static final ProductCollector modLinkedList = new ProductCollector();
-
-    // Initializing .env file (for reading environment variables (Windows))
-    // For reading environment variables (Linux) use EnvReader.get(KEY)
-    private static final DotEnv dotEnv;
-    private static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
-
-    static {
-        dotEnv = new DotEnv(".env");
-        // Loading .env file
-        dotEnv.load();
-    }
+    public static final String ENVIRONMENT_VARIABLE = "FILE_NAME";
 
     /**
      * The entry point of application.
@@ -40,28 +19,7 @@ public final class Main {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        CollectionManager collectionManager = new CollectionManager(modLinkedList);
-        // Reading .env file
-        CommandBuilder commandBuilder = new CommandBuilder(collectionManager);
-        XMLCore xmlCore = new XMLCore(dotEnv.get("FILE_NAME"), collectionManager);
-        try {
-            ProductCollector xmlc = xmlCore.newXMLReader(ProductCollector.class, Product.class.getSimpleName(), buildersPath).parse();
-            modLinkedList.addAll(xmlc);
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
-        // Program loop
-        while (true) {
-            // Reading user input
-            System.out.print(Colors.ANSI_PURPLE + ">> " + Colors.ANSI_WHITE);
-            String userInput = in.nextLine();
-            System.out.print(Colors.ANSI_RESET);
-            try {
-                commandBuilder.buildCommand(userInput).execute();
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
+        CollectionCore core = new CollectionCore().init().fillOutCollection();
+        core.run();
     }
 }

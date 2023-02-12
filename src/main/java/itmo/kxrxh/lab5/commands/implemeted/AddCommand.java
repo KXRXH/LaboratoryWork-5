@@ -41,7 +41,7 @@ public final class AddCommand extends CollectionDependent {
     public void execute() {
         Product product = readObject(Product.class);
         if (product != null) {
-            getCollectionManager().add(product);
+            collectionManager.add(product);
         }
     }
 
@@ -226,5 +226,9 @@ public final class AddCommand extends CollectionDependent {
     private Enum<?> stringToEnum(Field field, String value) {
         return (Enum<?>) Enum.valueOf((Class<Enum>) field.getType(), value);
 
+    }
+    @Override
+    public String getCommandName() {
+        return "add";
     }
 }

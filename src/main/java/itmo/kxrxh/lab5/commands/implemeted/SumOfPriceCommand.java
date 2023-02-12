@@ -21,6 +21,6 @@ public final class SumOfPriceCommand extends CollectionDependent {
 
     @Override
     public void execute() {
-        System.out.println(getCollectionManager().sumOfPrice());
+        System.out.println(collectionManager.sumOfPrice());
     }
 }

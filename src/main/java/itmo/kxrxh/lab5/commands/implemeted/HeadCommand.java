@@ -22,11 +22,11 @@ public final class HeadCommand extends CollectionDependent {
 
     @Override
     public void execute() {
-        Product head = getCollectionManager().head();
+        Product head = collectionManager.head();
         if (head == null) {
             System.out.println("Collection is empty");
             return;
         }
-        System.out.println(getCollectionManager().head());
+        System.out.println(collectionManager.head());
     }
 }

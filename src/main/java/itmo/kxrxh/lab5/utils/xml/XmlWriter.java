@@ -38,28 +38,14 @@ public class XmlWriter extends XMLHandler {
      *
      * @param line String to write
      */
-    protected void writeLine(String line) {
+    protected void writeLine(String line) throws RuntimeException {
         try {
             bufferedOutput.write(line.getBytes());
             bufferedOutput.write("\n".getBytes());
             bufferedOutput.flush();
 
         } catch (IOException e) {
-            System.out.println("Error while writing to file");
-        }
-    }
-
-    /**
-     * Write string to file
-     *
-     * @param line String to write
-     */
-    protected void write(String line) {
-        try {
-            bufferedOutput.write(line.getBytes());
-            bufferedOutput.flush();
-        } catch (IOException e) {
-            System.out.println("Error while writing to file");
+            System.out.println("Error while writing to file: " + e.getMessage());
         }
     }
 
@@ -81,23 +67,22 @@ public class XmlWriter extends XMLHandler {
      *
      * @param object Object to write
      */
-    private void writeObject(Object object) {
+    private void writeObject(Object object) throws RuntimeException {
         writeLine(indentString() + "<" + object.getClass().getSimpleName() + ">");
         indentLevel++;
-        Arrays.stream(object.getClass().getDeclaredFields())
-                .forEach(field -> {
-                    field.setAccessible(true);
-                    try {
-                        if (List.of("Address", "Coordinates", "Organization", "Product").contains(field.getType().getSimpleName())) {
-                            writeObject(field.get(object));
-                            return;
-                        }
-                        writeLine(indentString() + "<" + toSnakeCase(field.getName()) + ">" + field.get(object) + "</" + toSnakeCase(field.getName()) + ">");
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                });
-        indentLevel--;
+        Arrays.stream(object.getClass().getDeclaredFields()).forEach(field -> {
+            field.setAccessible(true);
+            try {
+                if (List.of("Address", "Coordinates", "Organization", "Product").contains(field.getType().getSimpleName())) {
+                    writeObject(field.get(object));
+                    return;
+                }
+                writeLine(indentString() + "<" + toSnakeCase(field.getName()) + ">" + field.get(object) + "</" + toSnakeCase(field.getName()) + ">");
+            } catch (IllegalAccessException e) {
+                System.out.println("Error while writing to file: " + e.getMessage());
+            }
+        });
+        --indentLevel;
         writeLine(indentString() + "</" + object.getClass().getSimpleName() + ">");
     }
 

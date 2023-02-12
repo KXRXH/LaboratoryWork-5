@@ -22,6 +22,6 @@ public final class InfoCommand extends CollectionDependent {
 
     @Override
     public void execute() {
-        getCollectionManager().getInfo();
+        collectionManager.getInfo();
     }
 }

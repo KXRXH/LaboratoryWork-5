@@ -46,6 +46,9 @@ public class CommandBuilder {
             case "add" -> new AddCommand(collectionManager);
             case "execute_script" -> new ExecuteScriptCommand(collectionManager, commandArgs, this);
             case "remove_by_id" -> new RemoveByIdCommand(collectionManager, commandArgs);
+            case "save" -> new SaveCommand(collectionManager);
+            case "add_if_max" -> null;
+            case "count_greater_than_manufacturer" -> new CountGreaterThanManufacturerCommand(collectionManager, commandArgs);
             default -> new UnknownCommand();
         };
     }

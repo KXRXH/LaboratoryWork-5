@@ -19,7 +19,7 @@ public class CollectionCore {
     private CommandBuilder commandBuilder;
 
     private XMLCore xmlCore;
-    private static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
+    public static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
 
     private static final DotEnv dotEnv;
 
@@ -63,7 +63,7 @@ public class CollectionCore {
     public void run() {
         Scanner in = new Scanner(System.in);
         // Program loop
-        while (true) {
+        for (;;) {
             // Reading user input
             System.out.print("\u001B[35m>> \u001B[37m");
             String userInput = in.nextLine();

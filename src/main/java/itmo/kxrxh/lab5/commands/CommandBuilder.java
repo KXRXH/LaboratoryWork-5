@@ -6,8 +6,11 @@ import itmo.kxrxh.lab5.utils.types.SizedStack;
 
 /**
  * Command builder. Used to build command object.
+ * <p>
+ * Creates {@link Executable} command object from command name and command args.
  *
  * @author kxrxh
+ * @see Executable
  */
 public class CommandBuilder {
 
@@ -25,7 +28,10 @@ public class CommandBuilder {
     }
 
     /**
-     * Build command executable.
+     * Build executable command.
+     * Used to build command from command name and command args.<p>
+     * Also adds command to history.<p>
+     * If command is not found, returns {@link UnknownCommand}.
      *
      * @param command     the command
      * @param commandArgs the command args
@@ -47,8 +53,13 @@ public class CommandBuilder {
             case "execute_script" -> new ExecuteScriptCommand(collectionManager, commandArgs, this);
             case "remove_by_id" -> new RemoveByIdCommand(collectionManager, commandArgs);
             case "save" -> new SaveCommand(collectionManager);
-            case "add_if_max" -> null;
-            case "count_greater_than_manufacturer" -> new CountGreaterThanManufacturerCommand(collectionManager, commandArgs);
+            // TODO
+            case "add_if_max" -> new AddIfMaxCommand(collectionManager);
+            case "update_id" -> new UpdateByIdCommand(collectionManager, commandArgs);
+            case "remove_greater" -> new RemoveGreaterCommand(collectionManager, commandArgs);
+            case "average_of_manufacture_cost" -> null;
+            case "count_greater_than_manufacturer" ->
+                    new CountGreaterThanManufacturerCommand(collectionManager, commandArgs);
             default -> new UnknownCommand();
         };
     }

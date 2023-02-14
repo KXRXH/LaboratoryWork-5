@@ -29,20 +29,6 @@ public class Product {
     private final Organization manufacturer; // Поле не может быть null
     private final float manufactureCost;
 
-    /**
-     * Instantiates a new Product.
-     *
-     * @param name            name of the product
-     * @param coordinates     coordinates of the product
-     * @param price           price of the product
-     * @param partNumber      part number of the product
-     * @param unitOfMeasure   unit of measure of the product
-     * @param manufacturer    manufacturer of the product
-     * @param manufactureCost manufacture cost of the product
-     */
-    public Product(@NotNull String name, @NotNull Coordinates coordinates, @NotNull Double price, @NotNull String partNumber, @NotNull UnitOfMeasure unitOfMeasure, @NotNull Organization manufacturer, float manufactureCost) {
-        this(IdGenerator.generateIntId(), name, coordinates, Time.getTime(), price, partNumber, unitOfMeasure, manufacturer, manufactureCost);
-    }
 
     /**
      * Instantiates a new Product. Used for deserialization.

@@ -1,5 +1,6 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
+import itmo.kxrxh.lab5.collection.CollectionCore;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.types.Product;
@@ -12,9 +13,13 @@ import itmo.kxrxh.lab5.utils.annotations.Value;
 import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import itmo.kxrxh.lab5.utils.generators.Time;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -25,12 +30,6 @@ import java.util.Scanner;
  * @author kxrxh
  */
 public final class AddCommand extends CollectionDependent {
-    private static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
-    /**
-     * Instantiates a new Collection dependent.
-     *
-     * @param collectionManager Collection manager
-     */
     private final Scanner scanner = new Scanner(System.in);
 
     public AddCommand(CollectionManager collectionManager) {
@@ -42,18 +41,34 @@ public final class AddCommand extends CollectionDependent {
         Product product = readObject(Product.class);
         if (product != null) {
             collectionManager.add(product);
+            System.out.println("\u001B[32mProduct was successfully added to collection.\u001B[0m");
         }
     }
 
+    /**
+     * This method reads object of type T from console.
+     * It uses builder pattern to create object. It reads all fields of the object
+     * and creates object using builder.
+     * <p>
+     * Also, it uses annotations to validate input data.
+     * <p>List of annotations: {@link Value}, {@link Length}, {@link NonNull}, {@link Generated}.
+     *
+     * @param objectType Type of object to read.
+     * @param <T>        Generic type of object to read.
+     * @return Object of type T.
+     * @see itmo.kxrxh.lab5.types.builders
+     */
     @SuppressWarnings("unchecked")
-    private <T> T readObject(Class<T> objectType) {
+    private <T> @Nullable T readObject(Class<T> objectType) {
+        // Getting class of the class builder for the object.
         Class<?> builderClass;
         try {
-            builderClass = Class.forName("%s.%sBuilder".formatted(buildersPath, objectType.getSimpleName()));
+            builderClass = Class.forName("%s.%sBuilder".formatted(CollectionCore.buildersPath, objectType.getSimpleName()));
         } catch (ClassNotFoundException e) {
             System.out.println("Can't find builder for class: " + objectType.getSimpleName());
             return null;
         }
+        // Creating builder object.
         Builder object;
         try {
             object = (Builder) builderClass.getDeclaredConstructor().newInstance();
@@ -65,6 +80,7 @@ public final class AddCommand extends CollectionDependent {
         System.out.printf("%s%s%s%n", Colors.ANSI_RED, objectType.getSimpleName(), Colors.ANSI_RESET);
         for (Field field : builderClass.getDeclaredFields()) {
             field.setAccessible(true);
+            // If field is Enum then converting string value to Enum<?> value.
             if (field.getType().isEnum()) {
                 System.out.printf("\u001B[35m%s (%s): %n\u001B[0m", StringUtils.capitalize(field.getName()), field.getType().getSimpleName());
                 while (true) {
@@ -80,67 +96,19 @@ public final class AddCommand extends CollectionDependent {
                 }
                 continue;
             }
+            // If field is annotated with @Generated then generate value.
+            // Else read value from console
             if (field.isAnnotationPresent(Generated.class)) {
                 setValueToField(field, object, generateValueByType(field));
                 continue;
             }
+
             // if field type is built-in type or String then read it
             switch (field.getType().getSimpleName()) {
-                case "Integer", "int" -> {
-                    System.out.printf("\u001B[35m%s (int): %n\u001B[0m", StringUtils.capitalize(field.getName()));
-                    while (true) {
-                        System.out.print(">: ");
-                        Integer value;
-                        try {
-                            value = scanner.nextInt();
-                        } catch (InputMismatchException e) {
-                            System.out.printf("%sInput is not of type Integer%s%n", Colors.ANSI_RED, Colors.ANSI_RESET);
-                            scanner.nextLine();
-                            continue;
-                        }
-                        scanner.nextLine();
-                        if (checkNumber(field, value)) {
-                            setValueToField(field, object, value);
-                            break;
-                        }
-                    }
-                }
-                case "Long", "long" -> {
-                    System.out.printf("\u001B[35m%s (long): %n\u001B[0m", StringUtils.capitalize(field.getName()));
-                    while (true) {
-                        System.out.print(">: ");
-                        Long value = scanner.nextLong();
-                        scanner.nextLine();
-                        if (checkNumber(field, value)) {
-                            setValueToField(field, object, value);
-                            break;
-                        }
-                    }
-                }
-                case "Double", "double" -> {
-                    System.out.printf("\u001B[35m%s (double): %n\u001B[0m", StringUtils.capitalize(field.getName()));
-                    while (true) {
-                        System.out.print(">: ");
-                        Double value = scanner.nextDouble();
-                        scanner.nextLine();
-                        if (checkNumber(field, value)) {
-                            setValueToField(field, object, value);
-                            break;
-                        }
-                    }
-                }
-                case "Float", "float" -> {
-                    System.out.printf("\u001B[35m%s (float): %n\u001B[0m", StringUtils.capitalize(field.getName()));
-                    while (true) {
-                        System.out.print(">: ");
-                        Float value = scanner.nextFloat();
-                        scanner.nextLine();
-                        if (checkNumber(field, value)) {
-                            setValueToField(field, object, value);
-                            break;
-                        }
-                    }
-                }
+                case "Integer", "int" -> readNumber("Integer", field, object);
+                case "Long", "long" -> readNumber("Long", field, object);
+                case "Double", "double" -> readNumber("Double", field, object);
+                case "Float", "float" -> readNumber("Float", field, object);
                 case "String" -> {
                     System.out.printf("\u001B[35m%s (String): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
@@ -158,7 +126,7 @@ public final class AddCommand extends CollectionDependent {
                     try {
                         field.set(object, readObject(field.getType()));
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        System.out.printf("%sCan't set value to field: %s%s%n", Colors.ANSI_RED, field.getName(), Colors.ANSI_RESET);
                     }
                 }
             }
@@ -166,6 +134,42 @@ public final class AddCommand extends CollectionDependent {
         return (T) object.build();
     }
 
+    private void readNumber(String numType, Field field, Builder object) {
+        System.out.printf("\u001B[35m%s (%s): %n\u001B[0m", StringUtils.capitalize(field.getName()), numType);
+        while (true) {
+            System.out.print(">: ");
+            Number value;
+            try {
+                value = NumberFormat.getInstance().parse(scanner.nextLine());
+            } catch (ParseException e) {
+                System.out.printf("%sInput is not of type %s%s%n", Colors.ANSI_RED, numType, Colors.ANSI_RESET);
+                continue;
+            }
+            if (checkNumber(field, value)) {
+                value = switch (numType) {
+                    case "Integer" -> value.intValue();
+                    case "Long" -> value.longValue();
+                    case "Double" -> value.doubleValue();
+                    case "Float" -> value.floatValue();
+                    default -> value;
+                };
+                System.out.println(value);
+                setValueToField(field, object, value);
+                break;
+            }
+        }
+    }
+
+    /**
+     * This method checks if value of field is valid.
+     * <p>
+     * If field is annotated with {@link Value} then it checks if value is in range.
+     *
+     * @param field field is used to get annotation
+     * @param value value to check
+     * @param <T>   type of value
+     * @return true if value is valid
+     */
     private <T extends Number> boolean checkNumber(Field field, T value) {
         Value valueAnnotation = null;
         if (field.isAnnotationPresent(Value.class)) {
@@ -173,18 +177,31 @@ public final class AddCommand extends CollectionDependent {
         }
         if (valueAnnotation != null) {
             if (value.doubleValue() <= valueAnnotation.min()) {
-                System.out.printf("%sValue must be greater than %s%s".formatted(Colors.ANSI_RED, valueAnnotation.min(), Colors.ANSI_RESET));
+                System.out.printf("%sValue must be greater than %s%s%n".formatted(Colors.ANSI_RED, valueAnnotation.min(), Colors.ANSI_RESET));
                 return false;
             }
             if (value.doubleValue() >= valueAnnotation.max()) {
-                System.out.printf("%sValue must be less than %s%s".formatted(Colors.ANSI_RED, valueAnnotation.max(), Colors.ANSI_RESET));
+                System.out.printf("%sValue must be less than %s%s%n".formatted(Colors.ANSI_RED, valueAnnotation.max(), Colors.ANSI_RESET));
                 return false;
             }
         }
         return true;
     }
 
-    boolean checkString(Field field, String value) {
+    /**
+     * Checks if string is valid. If string is empty and field is annotated with {@link NonNull} then it will return false.
+     * <p>
+     * If string length is less than {@link Length#min()} then it will return false.
+     * <p>
+     * If string length is greater than {@link Length#max()} then it will return false.
+     * <p>
+     * Otherwise, it will return true.
+     *
+     * @param field field is needed to get annotations from it
+     * @param value value to check
+     * @return true if value is valid
+     */
+    private boolean checkString(Field field, String value) {
         if (field.isAnnotationPresent(NonNull.class) && value.isEmpty()) {
             System.out.println("Field can't be null");
             return false;
@@ -203,6 +220,15 @@ public final class AddCommand extends CollectionDependent {
         return true;
     }
 
+    /**
+     * This method calls method to generate value by type.
+     *
+     * @param field field to generate value
+     * @param <T>   type of field
+     * @return generated value
+     * @see IdGenerator
+     * @see Time
+     */
     private <T> T generateValueByType(Field field) {
         return (T) switch (field.getType().getSimpleName()) {
             case "Integer", "int" -> IdGenerator.generateIntId();
@@ -212,6 +238,13 @@ public final class AddCommand extends CollectionDependent {
         };
     }
 
+    /**
+     * This method sets value to field.
+     *
+     * @param field  field to set value
+     * @param object object to set value
+     * @param value  value to set
+     */
     private void setValueToField(Field field, Object object, Object value) {
         try {
             field.set(object, value);
@@ -222,13 +255,16 @@ public final class AddCommand extends CollectionDependent {
         }
     }
 
+    /**
+     * This method converts string to enum.
+     *
+     * @param field field to get type
+     * @param value value to convert
+     * @return converted value
+     * @see Enum
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private Enum<?> stringToEnum(Field field, String value) {
+    private @NotNull Enum<?> stringToEnum(Field field, String value) {
         return (Enum<?>) Enum.valueOf((Class<Enum>) field.getType(), value);
-
-    }
-    @Override
-    public String getCommandName() {
-        return "add";
     }
 }

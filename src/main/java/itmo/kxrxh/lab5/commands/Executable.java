@@ -14,13 +14,4 @@ public interface Executable {
     default void execute() {
         System.out.println("\u001B[33mUnknown command. Type 'help' to see the list of available commands.\u001B[0m");
     }
-
-    /**
-     * Return command name in string format
-     *
-     * @return Command name
-     */
-    default String getCommandName() {
-        return "Unknown";
-    }
 }

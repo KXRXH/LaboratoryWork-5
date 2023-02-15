@@ -63,7 +63,7 @@ public class CollectionCore {
     public void run() {
         Scanner in = new Scanner(System.in);
         // Program loop
-        for (;;) {
+        for (; ; ) {
             // Reading user input
             System.out.print("\u001B[35m>> \u001B[37m");
             String userInput = in.nextLine();
@@ -71,7 +71,7 @@ public class CollectionCore {
             try {
                 commandBuilder.buildCommand(userInput).execute();
             } catch (Exception e) {
-                System.out.println(Colors.ANSI_RED + "Error: " + e.getMessage() + Colors.ANSI_RESET);
+                System.err.println("Error: " + e.getMessage());
             }
         }
     }

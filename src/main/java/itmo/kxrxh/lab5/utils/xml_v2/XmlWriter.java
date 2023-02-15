@@ -1,7 +1,9 @@
-package itmo.kxrxh.lab5.utils.xml;
+package itmo.kxrxh.lab5.utils.xml_v2;
 
 
 import itmo.kxrxh.lab5.collection.ProductCollector;
+import itmo.kxrxh.lab5.utils.xml.XMLCore;
+import itmo.kxrxh.lab5.utils.xml.XMLHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
@@ -20,12 +22,11 @@ import static itmo.kxrxh.lab5.utils.strings.StringUtils.toSnakeCase;
  * @see XMLCore
  * @see XMLHandler
  */
-@Deprecated
 public class XmlWriter extends XMLHandler {
     private final BufferedOutputStream bufferedOutput;
     private int indentLevel = 0;
 
-    protected XmlWriter(XMLCore xmlCore) {
+    protected XmlWriter(XML) {
         super(xmlCore);
         try {
             this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xmlCore.fileName));

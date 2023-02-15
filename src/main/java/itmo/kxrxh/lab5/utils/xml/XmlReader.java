@@ -30,6 +30,7 @@ public class XmlReader extends XMLHandler {
 
     private final Stack<String> tags = new Stack<>();
 
+    @Deprecated
     protected XmlReader(XMLCore xmlCore, Class<?> collection_class, String item_name, String builders_path) throws FileNotFoundException {
         super(xmlCore);
         this.scanner = new Scanner(new File(xmlCore.fileName));

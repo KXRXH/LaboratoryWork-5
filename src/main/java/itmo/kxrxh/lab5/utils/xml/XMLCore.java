@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
  * @see XMLHandler
  * @see CollectionManager
  */
+@Deprecated
 public final class XMLCore {
     final String fileName;
     final CollectionManager collectionManager;

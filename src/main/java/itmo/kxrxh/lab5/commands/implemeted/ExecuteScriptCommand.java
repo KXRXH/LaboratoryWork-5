@@ -8,6 +8,7 @@ import itmo.kxrxh.lab5.commands.Executable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
  * @author kxrxh
  */
 public class ExecuteScriptCommand extends CollectionDependent {
+
+    protected static final List<Executable> fileHistory = new ArrayList<>();
 
     private final CommandBuilder commandBuilder;
     protected final String[] commandArgs;
@@ -30,10 +33,15 @@ public class ExecuteScriptCommand extends CollectionDependent {
      * @see CommandBuilder
      * @see CollectionManager
      */
-    public ExecuteScriptCommand(CollectionManager collectionManager, String[] commandArgs, CommandBuilder commandBuilder) {
+    public ExecuteScriptCommand(CollectionManager collectionManager, String[] commandArgs, CommandBuilder commandBuilder) throws Exception {
         super(collectionManager);
         this.commandArgs = commandArgs;
         this.commandBuilder = commandBuilder;
+        if (fileHistory.contains(this)) {
+            throw new Exception("Script recursion detected");
+        } else {
+            fileHistory.add(this);
+        }
     }
 
     /**
@@ -46,16 +54,14 @@ public class ExecuteScriptCommand extends CollectionDependent {
             List<String> lines = Files.readAllLines(Paths.get(fileName));
             for (String line : lines) {
                 Executable executable = commandBuilder.buildCommand(line);
-                if (executable instanceof ExecuteScriptCommand) {
-                    if (Arrays.equals(((ExecuteScriptCommand) executable).commandArgs, commandArgs)) {
-                        System.out.println("\u001B[33mRecursion detected. Skipping script execution.\u001B[0m");
-                        continue;
-                    }
+                if (executable == null) {
+                    continue;
                 }
                 executable.execute();
+                fileHistory.remove(this);
             }
         } catch (IOException e) {
-            System.out.println("Error reading script file: " + fileName);
+            System.err.println("Error reading script file: " + fileName);
         }
     }
 
@@ -66,5 +72,13 @@ public class ExecuteScriptCommand extends CollectionDependent {
             throw new RuntimeException("Script file name not specified");
         }
         readFile(commandArgs[0]);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ExecuteScriptCommand) {
+            return Arrays.equals(commandArgs, ((ExecuteScriptCommand) obj).commandArgs);
+        }
+        return false;
     }
 }

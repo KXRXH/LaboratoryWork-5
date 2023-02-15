@@ -50,7 +50,15 @@ public class CommandBuilder {
             case "history" -> new HistoryCommand(history);
             case "exit" -> new ExitCommand();
             case "add" -> new AddCommand(collectionManager);
-            case "execute_script" -> new ExecuteScriptCommand(collectionManager, commandArgs, this);
+            case "execute_script" -> {
+                Executable executable = null;
+                try {
+                    executable = new ExecuteScriptCommand(collectionManager, commandArgs, this);
+                } catch (Exception e) {
+                    System.err.println("\n" + e.getMessage());
+                }
+                yield executable;
+            }
             case "remove_by_id" -> new RemoveByIdCommand(collectionManager, commandArgs);
             case "save" -> new SaveCommand(collectionManager);
             // TODO

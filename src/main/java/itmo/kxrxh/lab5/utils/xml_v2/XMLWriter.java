@@ -2,8 +2,6 @@ package itmo.kxrxh.lab5.utils.xml_v2;
 
 
 import itmo.kxrxh.lab5.collection.ProductCollector;
-import itmo.kxrxh.lab5.utils.xml.XMLCore;
-import itmo.kxrxh.lab5.utils.xml.XMLHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
@@ -19,17 +17,17 @@ import static itmo.kxrxh.lab5.utils.strings.StringUtils.toSnakeCase;
  * Xml writer class. Used for writing to xml file
  *
  * @author kxrxh
- * @see XMLCore
- * @see XMLHandler
+ * @see XML
+ * @see XmlAction
  */
-public class XmlWriter extends XMLHandler {
+public class XMLWriter extends XmlAction {
     private final BufferedOutputStream bufferedOutput;
     private int indentLevel = 0;
 
-    protected XmlWriter(XML) {
-        super(xmlCore);
+    protected XMLWriter(XML xml) {
+        super(xml);
         try {
-            this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xmlCore.fileName));
+            this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xml.getXmlFileName()));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("File not found");
         }

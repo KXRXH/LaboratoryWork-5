@@ -1,7 +1,5 @@
 package itmo.kxrxh.lab5.commands;
 
-import itmo.kxrxh.lab5.utils.Terminal.Colors;
-
 /**
  * Interface for all executable commands
  *

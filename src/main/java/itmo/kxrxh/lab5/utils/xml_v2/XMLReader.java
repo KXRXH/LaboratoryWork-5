@@ -35,7 +35,7 @@ public class XMLReader extends XmlAction {
         return productCollector;
     }
 
-    private static ProductCollector readXML(String file) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
+    private ProductCollector readXML(String file) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         Document doc = dbf.newDocumentBuilder().parse(file);
         doc.normalizeDocument();
@@ -53,7 +53,7 @@ public class XMLReader extends XmlAction {
         return productCollector;
     }
 
-    private static Object parseItem(Node node) throws ClassNotFoundException {
+    private Object parseItem(Node node) throws ClassNotFoundException {
         NodeList innerNodes = node.getChildNodes();
         // Getting builder's clazz
         Class<?> builderClass = Class.forName("%s.%sBuilder".formatted("itmo.kxrxh.lab5.types.builders", StringUtils.capitalize(node.getNodeName())));
@@ -84,7 +84,8 @@ public class XMLReader extends XmlAction {
         return builder.build();
     }
 
-    protected static <T> void setValueToField(Object item, String fieldName, T value) {
+    @SuppressWarnings("unchecked")
+    protected <T> void setValueToField(Object item, String fieldName, T value) {
         if (item instanceof Collection<?>) {
             ((Collection<T>) item).add(value);
             return;
@@ -107,7 +108,7 @@ public class XMLReader extends XmlAction {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private static <T> void setEnumValue(Field field, Object item, T value) {
+    private <T> void setEnumValue(Field field, Object item, T value) {
         try {
             field.set(item, Enum.valueOf((Class<Enum>) field.getType(), (String) value));
         } catch (IllegalAccessException e) {
@@ -115,21 +116,21 @@ public class XMLReader extends XmlAction {
         }
     }
 
-    private static <T> void setFieldValue(Field field, Object item, T value) {
+    private <T> void setFieldValue(Field field, Object item, T value) {
         try {
             Class<?> type = field.getType();
             if (value == "null") {
                 field.set(item, null);
                 return;
             }
-            switch (type.getSimpleName()) {
-                case "LocalDateTime" -> field.set(item, LocalDateTime.parse((String) value));
-                case "Integer", "int" -> field.set(item, Integer.parseInt((String) value));
-                case "Long", "long" -> field.set(item, Long.parseLong((String) value));
-                case "Float", "float" -> field.set(item, Float.parseFloat((String) value));
-                case "Double", "double" -> field.set(item, Double.parseDouble((String) value));
-                default -> field.set(item, value);
-            }
+            field.set(item, switch (type.getSimpleName()) {
+                case "LocalDateTime" -> LocalDateTime.parse((String) value);
+                case "Integer", "int" -> Integer.parseInt((String) value);
+                case "Long", "long" -> Long.parseLong((String) value);
+                case "Float", "float" -> Float.parseFloat((String) value);
+                case "Double", "double" -> Double.parseDouble((String) value);
+                default -> value;
+            });
         } catch (IllegalAccessException e) {
             System.out.println("Error while parsing " + field.getType().getSimpleName() + ". Check if value is " + field.getType().getSimpleName());
         }

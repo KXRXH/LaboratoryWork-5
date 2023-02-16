@@ -2,11 +2,9 @@ package itmo.kxrxh.lab5;
 
 
 import itmo.kxrxh.lab5.collection.CollectionCore;
-import itmo.kxrxh.lab5.utils.xml_v2.XMLReader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 
 

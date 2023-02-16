@@ -17,6 +17,10 @@ public class XML {
         return new XMLReader(this);
     }
 
+    public XMLWriter newWriter() throws Exception {
+        return new XMLWriter(this);
+    }
+
     public String getXmlFileName() {
         return xmlFileName;
     }

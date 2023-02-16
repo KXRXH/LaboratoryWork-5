@@ -5,7 +5,7 @@ import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
-import itmo.kxrxh.lab5.utils.Terminal.Colors;
+import itmo.kxrxh.lab5.utils.terminal.Colors;
 import itmo.kxrxh.lab5.utils.annotations.Generated;
 import itmo.kxrxh.lab5.utils.annotations.Length;
 import itmo.kxrxh.lab5.utils.annotations.NonNull;

@@ -3,12 +3,11 @@ package itmo.kxrxh.lab5.collection;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
 import itmo.kxrxh.lab5.types.Product;
-import itmo.kxrxh.lab5.utils.Terminal.Colors;
+import itmo.kxrxh.lab5.utils.terminal.Colors;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
-import itmo.kxrxh.lab5.utils.xml.XMLCore;
-import itmo.kxrxh.lab5.utils.xml.XmlReader;
 
 import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static itmo.kxrxh.lab5.Main.ENVIRONMENT_VARIABLE;
@@ -63,10 +62,16 @@ public class CollectionCore {
     public void run() {
         Scanner in = new Scanner(System.in);
         // Program loop
-        for (; ; ) {
-            // Reading user input
+        while (true) {
             System.out.print("\u001B[35m>> \u001B[37m");
-            String userInput = in.nextLine();
+            // Reading user input
+            String userInput;
+            try {
+                userInput = in.nextLine();
+            } catch (NoSuchElementException e) {
+                System.err.println("EOF");
+                return;
+            }
             System.out.print(Colors.ANSI_RESET);
             try {
                 commandBuilder.buildCommand(userInput).execute();
@@ -75,6 +80,5 @@ public class CollectionCore {
             }
         }
     }
-
 }
 

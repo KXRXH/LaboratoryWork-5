@@ -2,22 +2,24 @@ package itmo.kxrxh.lab5.collection;
 
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
-import itmo.kxrxh.lab5.types.Product;
-import itmo.kxrxh.lab5.utils.terminal.Colors;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
+import itmo.kxrxh.lab5.utils.terminal.Colors;
+import itmo.kxrxh.lab5.utils.xml.XML;
+import itmo.kxrxh.lab5.utils.xml.XMLReader;
+import itmo.kxrxh.lab5.utils.xml.exceptions.UnableToCreateFileException;
 
-import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static itmo.kxrxh.lab5.Main.ENVIRONMENT_VARIABLE;
+import static java.lang.System.exit;
 
 
 public class CollectionCore {
     private CollectionManager collectionManager;
     private CommandBuilder commandBuilder;
 
-    private XMLCore xmlCore;
+    private XML xmlCore;
     public static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
 
     private static final DotEnv dotEnv;
@@ -36,24 +38,25 @@ public class CollectionCore {
         collectionManager = new CollectionManager(productCollector);
         commandBuilder = new CommandBuilder(collectionManager);
         try {
-            xmlCore = new XMLCore(dotEnv.get(ENVIRONMENT_VARIABLE), collectionManager);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            xmlCore = new XML(dotEnv.get(ENVIRONMENT_VARIABLE));
+        } catch (UnableToCreateFileException | NoSuchFieldException e) {
+            System.err.println(e.getMessage());
+            exit(1);
         }
         return this;
     }
 
     public CollectionCore fillOutCollection() {
-        XmlReader xmlReader;
-        try {
-            xmlReader = xmlCore.newXMLReader(ProductCollector.class, Product.class.getSimpleName(), buildersPath);
-        } catch (FileNotFoundException e) {
-            System.out.println(Colors.ANSI_YELLOW + "Creating new collection..." + Colors.ANSI_RESET);
-            return this;
-        }
+        XMLReader xmlReader;
+        xmlReader = xmlCore.newReader();
         // Parsing collection from file
         System.out.println(Colors.ANSI_YELLOW + "Reading collection from file..." + Colors.ANSI_RESET);
-        ProductCollector parsedProductCollector = xmlReader.parse();
+        ProductCollector parsedProductCollector;
+        try {
+            parsedProductCollector = xmlReader.parse();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         collectionManager.collection().addAll(parsedProductCollector);
         System.out.println(Colors.ANSI_GREEN + "Collection was successfully read from file." + Colors.ANSI_RESET);
         return this;

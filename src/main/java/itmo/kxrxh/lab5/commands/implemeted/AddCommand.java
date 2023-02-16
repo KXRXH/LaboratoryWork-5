@@ -5,7 +5,6 @@ import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
-import itmo.kxrxh.lab5.utils.terminal.Colors;
 import itmo.kxrxh.lab5.utils.annotations.Generated;
 import itmo.kxrxh.lab5.utils.annotations.Length;
 import itmo.kxrxh.lab5.utils.annotations.NonNull;
@@ -13,6 +12,7 @@ import itmo.kxrxh.lab5.utils.annotations.Value;
 import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import itmo.kxrxh.lab5.utils.generators.Time;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
+import itmo.kxrxh.lab5.utils.terminal.Colors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -85,13 +86,19 @@ public final class AddCommand extends CollectionDependent {
                 System.out.printf("\u001B[35m%s (%s): %n\u001B[0m", StringUtils.capitalize(field.getName()), field.getType().getSimpleName());
                 while (true) {
                     System.out.print(">: ");
-                    String value = scanner.nextLine();
+                    String value;
+                    try {
+                        value = scanner.nextLine();
+                    } catch (NoSuchElementException e) {
+                        System.exit(0);
+                        return null;
+                    }
                     try {
                         setValueToField(field, object, stringToEnum(field, value));
                         break;
                     } catch (IllegalArgumentException e) {
-                        System.out.printf("%sEnum value is not valid%n", Colors.ANSI_RED);
-                        System.out.printf("%sEnum constants: %s%n" + Colors.ANSI_RESET, Colors.ANSI_RED, Arrays.toString(field.getType().getEnumConstants()));
+                        System.err.println("Enum value is not valid");
+                        System.err.println("Enum constants: " + Arrays.toString(field.getType().getEnumConstants()));
                     }
                 }
                 continue;
@@ -113,7 +120,13 @@ public final class AddCommand extends CollectionDependent {
                     System.out.printf("\u001B[35m%s (String): %n\u001B[0m", StringUtils.capitalize(field.getName()));
                     while (true) {
                         System.out.print(">: ");
-                        String value = scanner.nextLine();
+                        String value;
+                        try {
+                            value = scanner.nextLine();
+                        } catch (NoSuchElementException e) {
+                            System.exit(0);
+                            return null;
+                        }
                         if (checkString(field, value)) {
                             setValueToField(field, object, value);
                             break;
@@ -126,7 +139,7 @@ public final class AddCommand extends CollectionDependent {
                     try {
                         field.set(object, readObject(field.getType()));
                     } catch (IllegalAccessException e) {
-                        System.out.printf("%sCan't set value to field: %s%s%n", Colors.ANSI_RED, field.getName(), Colors.ANSI_RESET);
+                        System.err.println("Can't s ");
                     }
                 }
             }

@@ -1,10 +1,10 @@
-package itmo.kxrxh.lab5.utils.xml_v2;
+package itmo.kxrxh.lab5.utils.xml;
 
 import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
-import itmo.kxrxh.lab5.utils.xml_v2.exceptions.FileNameIsNullException;
+import itmo.kxrxh.lab5.utils.xml.exceptions.FileNameIsNullException;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -24,7 +24,7 @@ public class XMLReader extends XmlAction {
         super(xml);
     }
 
-    public ProductCollector parse() throws Exception {
+    public ProductCollector parse() throws FileNameIsNullException {
         ProductCollector productCollector;
         String filename = xml.getXmlFileName();
         if (filename != null) {
@@ -35,9 +35,14 @@ public class XMLReader extends XmlAction {
         return productCollector;
     }
 
-    private ProductCollector readXML(String file) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
+    private ProductCollector readXML(String file) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document doc = dbf.newDocumentBuilder().parse(file);
+        Document doc = null;
+        try {
+            doc = dbf.newDocumentBuilder().parse(file);
+        } catch (SAXException | IOException | ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        }
         doc.normalizeDocument();
         Element root = doc.getDocumentElement();
         NodeList rootTree = root.getChildNodes();
@@ -46,7 +51,13 @@ public class XMLReader extends XmlAction {
             Node node = rootTree.item(i);
             // Getting only Products
             if (node.getNodeName().equals("Product")) {
-                Product pr = (Product) parseItem(node);
+                Product pr;
+                try {
+                    pr = (Product) parseItem(node);
+                } catch (ClassNotFoundException e) {
+                    System.err.println(e.getMessage());
+                    continue;
+                }
                 productCollector.add(pr);
             }
         }
@@ -92,7 +103,7 @@ public class XMLReader extends XmlAction {
         }
         Field field = findField(item, toCamelCase(fieldName));
         if (field == null) {
-            System.out.println("Field " + fieldName + " not found");
+            System.err.println("Field " + fieldName + " not found");
             return;
         }
         field.setAccessible(true);
@@ -132,7 +143,7 @@ public class XMLReader extends XmlAction {
                 default -> value;
             });
         } catch (IllegalAccessException e) {
-            System.out.println("Error while parsing " + field.getType().getSimpleName() + ". Check if value is " + field.getType().getSimpleName());
+            System.err.printf("Error while parsing %s. Check if value is %s%n", field.getType().getSimpleName(), field.getType().getSimpleName());
         }
     }
 }

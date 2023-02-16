@@ -5,7 +5,7 @@ import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.commands.Executable;
 import itmo.kxrxh.lab5.utils.terminal.Colors;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
-import itmo.kxrxh.lab5.utils.xml_v2.XML;
+import itmo.kxrxh.lab5.utils.xml.XML;
 
 import static itmo.kxrxh.lab5.Main.ENVIRONMENT_VARIABLE;
 

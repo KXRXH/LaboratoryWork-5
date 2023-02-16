@@ -1,4 +1,4 @@
-package itmo.kxrxh.lab5.utils.xml_v2;
+package itmo.kxrxh.lab5.utils.xml;
 
 public abstract class XmlAction {
     protected XML xml;

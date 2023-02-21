@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class HistoryCommand implements Executable {
     /**
      * Contains last 7 commands
+     *
+     * @see SizedStack
      */
     private final SizedStack<String> history;
 
@@ -27,7 +29,7 @@ public final class HistoryCommand implements Executable {
 
     @Override
     public void execute() {
-        AtomicInteger c = new AtomicInteger();
-        history.forEach(command -> System.out.println(c.incrementAndGet() + ". " + command));
+        AtomicInteger index = new AtomicInteger();
+        history.forEach(command -> System.out.println(index.incrementAndGet() + ". " + command));
     }
 }

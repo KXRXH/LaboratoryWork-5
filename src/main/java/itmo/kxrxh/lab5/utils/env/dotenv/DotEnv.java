@@ -29,8 +29,9 @@ public final class DotEnv {
     /**
      * Loads environment variables from .env file. Puts them into env_map.
      */
-    public void load() {
+    public DotEnv load() {
         env_map = FileParser.parse(path);
+        return this;
     }
 
     /**

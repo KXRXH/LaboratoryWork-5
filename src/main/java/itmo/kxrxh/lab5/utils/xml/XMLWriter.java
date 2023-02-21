@@ -17,16 +17,17 @@ import static itmo.kxrxh.lab5.utils.strings.StringUtils.toSnakeCase;
  * Xml writer class. Used for writing to xml file
  *
  * @author kxrxh
- * @see XMLCore
- * @see XMLHandler
+ * @see XML
+ * @see XmlAction
  */
-public class XmlWriter extends XMLHandler {
+public class XMLWriter extends XmlAction {
     private final BufferedOutputStream bufferedOutput;
+    private int indentLevel = 0;
 
-    protected XmlWriter(XMLCore xmlCore) {
-        super(xmlCore);
+    protected XMLWriter(XML xml) {
+        super(xml);
         try {
-            this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xmlCore.fileName));
+            this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xml.getXmlFile()));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("File not found");
         }
@@ -37,32 +38,16 @@ public class XmlWriter extends XMLHandler {
      *
      * @param line String to write
      */
-    protected void writeLine(String line) {
+    protected void writeLine(String line) throws RuntimeException {
         try {
             bufferedOutput.write(line.getBytes());
             bufferedOutput.write("\n".getBytes());
             bufferedOutput.flush();
 
         } catch (IOException e) {
-            System.out.println("Error while writing to file");
+            System.out.println("Error while writing to file: " + e.getMessage());
         }
     }
-
-    /**
-     * Write string to file
-     *
-     * @param line String to write
-     */
-    protected void write(String line) {
-        try {
-            bufferedOutput.write(line.getBytes());
-            bufferedOutput.flush();
-        } catch (IOException e) {
-            System.out.println("Error while writing to file");
-        }
-    }
-
-    private int indentLevel = 0;
 
     /**
      * Write collection to file in xml format
@@ -82,23 +67,22 @@ public class XmlWriter extends XMLHandler {
      *
      * @param object Object to write
      */
-    private void writeObject(Object object) {
+    private void writeObject(Object object) throws RuntimeException {
         writeLine(indentString() + "<" + object.getClass().getSimpleName() + ">");
         indentLevel++;
-        Arrays.stream(object.getClass().getDeclaredFields())
-                .forEach(field -> {
-                    field.setAccessible(true);
-                    try {
-                        if (List.of("Address", "Coordinates", "Organization", "Product").contains(field.getType().getSimpleName())) {
-                            writeObject(field.get(object));
-                            return;
-                        }
-                        writeLine(indentString() + "<" + toSnakeCase(field.getName()) + ">" + field.get(object) + "</" + toSnakeCase(field.getName()) + ">");
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                });
-        indentLevel--;
+        Arrays.stream(object.getClass().getDeclaredFields()).forEach(field -> {
+            field.setAccessible(true);
+            try {
+                if (List.of("Address", "Coordinates", "Organization", "Product").contains(field.getType().getSimpleName())) {
+                    writeObject(field.get(object));
+                    return;
+                }
+                writeLine(indentString() + "<" + toSnakeCase(field.getName()) + ">" + field.get(object) + "</" + toSnakeCase(field.getName()) + ">");
+            } catch (IllegalAccessException e) {
+                System.out.println("Error while writing to file: " + e.getMessage());
+            }
+        });
+        --indentLevel;
         writeLine(indentString() + "</" + object.getClass().getSimpleName() + ">");
     }
 

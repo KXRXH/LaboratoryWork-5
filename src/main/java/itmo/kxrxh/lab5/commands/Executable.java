@@ -10,6 +10,6 @@ public interface Executable {
      * Execute command
      */
     default void execute() {
-        System.out.println("Unknown command. Type 'help' to see the list of available commands.");
+        System.out.println("\u001B[33mUnknown command. Type 'help' to see the list of available commands.\u001B[0m");
     }
 }

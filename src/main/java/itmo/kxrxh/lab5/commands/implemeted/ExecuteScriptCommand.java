@@ -1,39 +1,43 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
+import itmo.kxrxh.lab5.collection.CollectionCore;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
-import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
 import itmo.kxrxh.lab5.commands.Executable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Execute script command.
  *
  * @author kxrxh
  */
-public class ExecuteScriptCommand extends CollectionDependent {
+public class ExecuteScriptCommand extends CollectionDependentCommand {
 
-    private final CommandBuilder commandBuilder;
-    private final String[] commandArgs;
+    protected static final List<Executable> fileHistory = new ArrayList<>();
+    protected final String[] commandArgs;
+    private final CommandBuilder commandBuilder = CollectionCore.getCommandBuilder();
 
     /**
      * Instantiates a new Execute script command.
      *
-     * @param collectionManager the collection manager
-     * @param commandArgs       the command args
-     * @param commandBuilder    the command builder
+     * @param commandArgs the command args
      * @see CommandBuilder
      * @see CollectionManager
      */
-    public ExecuteScriptCommand(CollectionManager collectionManager, String[] commandArgs, CommandBuilder commandBuilder) {
-        super(collectionManager);
+    public ExecuteScriptCommand(String[] commandArgs) throws Exception {
         this.commandArgs = commandArgs;
-        this.commandBuilder = commandBuilder;
+        if (fileHistory.contains(this)) {
+            throw new Exception("Script recursion detected");
+        } else {
+            fileHistory.add(this);
+        }
     }
 
     /**
@@ -42,27 +46,35 @@ public class ExecuteScriptCommand extends CollectionDependent {
      * @param fileName Name of file to read
      */
     private void readFile(String fileName) {
-        List<String> lines = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(fileName))) {
-            while (scanner.hasNextLine()) {
-                lines.add(scanner.nextLine());
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(fileName));
+            for (String line : lines) {
+                Executable executable = commandBuilder.buildCommand(line);
+                if (executable == null) {
+                    continue;
+                }
+                executable.execute();
+                fileHistory.remove(this);
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("No such script file: " + fileName);
-            return;
-        }
-
-        for (String line : lines) {
-            Executable executable = commandBuilder.buildCommand(line);
-            executable.execute();
+        } catch (IOException e) {
+            System.err.println("Error reading script file: " + fileName);
         }
     }
+
 
     @Override
     public void execute() {
         if (commandArgs.length == 0) {
-            throw new RuntimeException("script file name not specified");
+            throw new RuntimeException("Script file name not specified");
         }
         readFile(commandArgs[0]);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ExecuteScriptCommand) {
+            return Arrays.equals(commandArgs, ((ExecuteScriptCommand) obj).commandArgs);
+        }
+        return false;
     }
 }

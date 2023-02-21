@@ -27,7 +27,7 @@ public class XMLWriter extends XmlAction {
     protected XMLWriter(XML xml) {
         super(xml);
         try {
-            this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xml.getXmlFileName()));
+            this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xml.getXmlFile()));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("File not found");
         }

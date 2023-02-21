@@ -1,5 +1,6 @@
 package itmo.kxrxh.lab5.commands;
 
+import itmo.kxrxh.lab5.collection.CollectionCore;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 
 /**
@@ -13,20 +14,10 @@ public abstract class CollectionDependent implements Executable {
      *
      * @see CollectionManager
      */
-    protected final CollectionManager collectionManager;
-
-    /**
-     * Instantiates a new Collection dependent.
-     *
-     * @param collectionManager Collection manager
-     */
-    public CollectionDependent(CollectionManager collectionManager) {
-        this.collectionManager = collectionManager;
-    }
+    protected final CollectionManager collectionManager = CollectionCore.getCollectionManager();
 
     @Override
     public void execute() {
-
     }
 
     /**

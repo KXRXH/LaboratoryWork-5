@@ -1,25 +1,23 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
-import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
 
 /**
  * Remove product by id command
  *
  * @author kxrxh
  */
+@CollectionEditor
 public final class RemoveByIdCommand extends CollectionDependent {
     private final long id;
 
     /**
      * Instantiates a new Remove by id command.
      *
-     * @param collectionManager Collection manager
-     * @param commandArgs       Command arguments
-     * @see CollectionManager
+     * @param commandArgs Command arguments
      */
-    public RemoveByIdCommand(CollectionManager collectionManager, String[] commandArgs) {
-        super(collectionManager);
+    public RemoveByIdCommand(String[] commandArgs) {
         if (commandArgs.length == 0) {
             throw new IllegalArgumentException("No arguments");
         }

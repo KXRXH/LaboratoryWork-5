@@ -1,5 +1,6 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
+import itmo.kxrxh.lab5.collection.CollectionCore;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
@@ -20,23 +21,18 @@ import java.util.List;
 public class ExecuteScriptCommand extends CollectionDependent {
 
     protected static final List<Executable> fileHistory = new ArrayList<>();
-
-    private final CommandBuilder commandBuilder;
     protected final String[] commandArgs;
+    private final CommandBuilder commandBuilder = CollectionCore.getCommandBuilder();
 
     /**
      * Instantiates a new Execute script command.
      *
-     * @param collectionManager the collection manager
-     * @param commandArgs       the command args
-     * @param commandBuilder    the command builder
+     * @param commandArgs the command args
      * @see CommandBuilder
      * @see CollectionManager
      */
-    public ExecuteScriptCommand(CollectionManager collectionManager, String[] commandArgs, CommandBuilder commandBuilder) throws Exception {
-        super(collectionManager);
+    public ExecuteScriptCommand(String[] commandArgs) throws Exception {
         this.commandArgs = commandArgs;
-        this.commandBuilder = commandBuilder;
         if (fileHistory.contains(this)) {
             throw new Exception("Script recursion detected");
         } else {

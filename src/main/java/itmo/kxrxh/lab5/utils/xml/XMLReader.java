@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -24,20 +25,21 @@ public class XMLReader extends XmlAction {
         super(xml);
     }
 
-    public ProductCollector parse() throws FileNameIsNullException {
+    public ProductCollector parse() {
         ProductCollector productCollector;
-        String filename = xml.getXmlFileName();
-        if (filename != null) {
-            productCollector = readXML(filename);
-        } else {
-            throw new FileNameIsNullException();
-        }
+        productCollector = readXML(xml.getXmlFile());
         return productCollector;
     }
 
-    private ProductCollector readXML(String file) {
+    public ProductCollector parse(File file) {
+        ProductCollector productCollector;
+        productCollector = readXML(file);
+        return productCollector;
+    }
+
+    private ProductCollector readXML(File file) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document doc = null;
+        Document doc;
         try {
             doc = dbf.newDocumentBuilder().parse(file);
         } catch (SAXException | IOException | ParserConfigurationException e) {

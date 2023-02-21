@@ -1,8 +1,9 @@
 package itmo.kxrxh.lab5.commands;
 
-import itmo.kxrxh.lab5.collection.manager.CollectionManager;
 import itmo.kxrxh.lab5.commands.implemeted.*;
-import itmo.kxrxh.lab5.utils.types.SizedStack;
+
+import static itmo.kxrxh.lab5.commands.CommandInvoker.getExecuteHistory;
+
 
 /**
  * Command builder. Used to build command object.
@@ -13,20 +14,6 @@ import itmo.kxrxh.lab5.utils.types.SizedStack;
  * @see Executable
  */
 public class CommandBuilder {
-
-    private final CollectionManager collectionManager;
-
-    private final SizedStack<String> history = new SizedStack<>(7);
-
-    /**
-     * Instantiates a new Command builder.
-     *
-     * @param collectionManager the collection manager
-     */
-    public CommandBuilder(CollectionManager collectionManager) {
-        this.collectionManager = collectionManager;
-    }
-
     /**
      * Build executable command.
      * Used to build command from command name and command args.<p>
@@ -39,35 +26,32 @@ public class CommandBuilder {
      */
     public Executable buildCommand(String command, String[] commandArgs) {
         // Add command to history
-        history.push(command);
         return switch (command) {
             case "help" -> new HelpCommand();
-            case "info" -> new InfoCommand(collectionManager);
-            case "show" -> new ShowCommand(collectionManager);
-            case "clear" -> new ClearCommand(collectionManager);
-            case "head" -> new HeadCommand(collectionManager);
-            case "sum_of_price" -> new SumOfPriceCommand(collectionManager);
-            case "history" -> new HistoryCommand(history);
+            case "info" -> new InfoCommand();
+            case "show" -> new ShowCommand();
+            case "clear" -> new ClearCommand();
+            case "head" -> new HeadCommand();
+            case "sum_of_price" -> new SumOfPriceCommand();
+            case "history" -> new HistoryCommand(getExecuteHistory());
             case "exit" -> new ExitCommand();
-            case "add" -> new AddCommand(collectionManager);
+            case "add" -> new AddCommand();
             case "execute_script" -> {
                 Executable executable = null;
                 try {
-                    executable = new ExecuteScriptCommand(collectionManager, commandArgs, this);
+                    executable = new ExecuteScriptCommand(commandArgs);
                 } catch (Exception e) {
                     System.err.println("\n" + e.getMessage());
                 }
                 yield executable;
             }
-            case "remove_by_id" -> new RemoveByIdCommand(collectionManager, commandArgs);
-            case "save" -> new SaveCommand(collectionManager);
-            // TODO
-            case "add_if_max" -> new AddIfMaxCommand(collectionManager);
-            case "update_id" -> new UpdateByIdCommand(collectionManager, commandArgs);
-            case "remove_greater" -> new RemoveGreaterCommand(collectionManager, commandArgs);
-            case "average_of_manufacture_cost" -> null;
-            case "count_greater_than_manufacturer" ->
-                    new CountGreaterThanManufacturerCommand(collectionManager, commandArgs);
+            case "remove_by_id" -> new RemoveByIdCommand(commandArgs);
+            case "save" -> new SaveCommand();
+            case "add_if_max" -> new AddIfMaxCommand();
+            case "update_id" -> new UpdateByIdCommand();
+            case "remove_greater" -> new RemoveGreaterCommand();
+            case "average_of_manufacture_cost" -> new AverageOfManufactureCostCommand();
+            case "count_greater_than_manufacturer" -> new CountGreaterThanManufacturerCommand();
             default -> new UnknownCommand();
         };
     }

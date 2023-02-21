@@ -1,14 +1,10 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
-import itmo.kxrxh.lab5.collection.CollectionCore;
-import itmo.kxrxh.lab5.collection.manager.CollectionManager;
+import itmo.kxrxh.lab5.Constants;
 import itmo.kxrxh.lab5.commands.CollectionDependent;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
-import itmo.kxrxh.lab5.utils.annotations.Generated;
-import itmo.kxrxh.lab5.utils.annotations.Length;
-import itmo.kxrxh.lab5.utils.annotations.NonNull;
-import itmo.kxrxh.lab5.utils.annotations.Value;
+import itmo.kxrxh.lab5.utils.annotations.*;
 import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import itmo.kxrxh.lab5.utils.generators.Time;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
@@ -30,12 +26,9 @@ import java.util.Scanner;
  *
  * @author kxrxh
  */
+@CollectionEditor
 public final class AddCommand extends CollectionDependent {
     private final Scanner scanner = new Scanner(System.in);
-
-    public AddCommand(CollectionManager collectionManager) {
-        super(collectionManager);
-    }
 
     @Override
     public void execute() {
@@ -64,7 +57,7 @@ public final class AddCommand extends CollectionDependent {
         // Getting class of the class builder for the object.
         Class<?> builderClass;
         try {
-            builderClass = Class.forName("%s.%sBuilder".formatted(CollectionCore.buildersPath, objectType.getSimpleName()));
+            builderClass = Class.forName("%s.%sBuilder".formatted(Constants.buildersPath, objectType.getSimpleName()));
         } catch (ClassNotFoundException e) {
             System.out.println("Can't find builder for class: " + objectType.getSimpleName());
             return null;

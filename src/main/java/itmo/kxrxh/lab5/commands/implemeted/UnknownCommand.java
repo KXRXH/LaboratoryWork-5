@@ -7,4 +7,5 @@ import itmo.kxrxh.lab5.commands.Executable;
  *
  * @author kxrxh
  */
-public record UnknownCommand() implements Executable { }
+public record UnknownCommand() implements Executable {
+}

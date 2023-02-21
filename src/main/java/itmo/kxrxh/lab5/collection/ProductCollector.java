@@ -48,7 +48,7 @@ public class ProductCollector extends LinkedList<Product> implements BasicCollec
             System.out.println("Collection is empty");
             return;
         }
-        this.clear();
+        super.clear();
     }
 
     /**

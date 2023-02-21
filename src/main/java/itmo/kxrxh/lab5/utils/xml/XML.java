@@ -5,10 +5,7 @@ import java.io.File;
 public class XML {
     protected final File xmlFile;
 
-    public XML(File xmlFile) throws NoSuchFieldException {
-        if (xmlFile.isDirectory() || !xmlFile.canRead()) {
-            throw new NoSuchFieldException("No such file or directory: " + xmlFile.getAbsolutePath());
-        }
+    public XML(File xmlFile) {
         this.xmlFile = xmlFile;
     }
 

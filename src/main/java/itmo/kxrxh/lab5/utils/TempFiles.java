@@ -58,10 +58,6 @@ public final class TempFiles {
         } catch (IOException e) {
             throw new RuntimeException("Unable to create temporary file", e);
         }
-        try {
-            new XML(tmpFile).newWriter().writeCollection(CollectionCore.getCollectionManager().collection());
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException("Unable to save collection", e);
-        }
+        new XML(tmpFile).newWriter().writeCollection(CollectionCore.getCollectionManager().collection());
     }
 }

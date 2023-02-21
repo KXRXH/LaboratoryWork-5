@@ -20,7 +20,6 @@ public final class Main {
     public static void main(String[] args) {
 
         CollectionCore core = new CollectionCore().init();
-        File tempFile = TempFiles.getLatestFile();
         if (!core.restoreCollection()) {
             core.fillOutCollection();
         }

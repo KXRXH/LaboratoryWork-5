@@ -49,12 +49,7 @@ public class CollectionCore {
     public CollectionCore init() {
         ProductCollector productCollector = new ProductCollector();
         collectionManager = new CollectionManager(productCollector);
-        try {
-            xmlCore = new XML(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
-        } catch (NoSuchFieldException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
+        xmlCore = new XML(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
         return this;
     }
 
@@ -102,14 +97,15 @@ public class CollectionCore {
         xmlReader = xmlCore.newReader();
         // Parsing collection from file
         System.out.println(Colors.ANSI_YELLOW + "Reading collection from file..." + Colors.ANSI_RESET);
-        ProductCollector parsedProductCollector;
+        ProductCollector parsedProductCollector = new ProductCollector();
         try {
             parsedProductCollector = xmlReader.parse();
+            System.out.println("\u001B[32mCollection was successfully read from file.\u001B[0m");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(Colors.ANSI_PURPLE + "Unable to find collection file.");
+            System.out.println(Colors.ANSI_GREEN + "Creating new collection" + Colors.ANSI_RESET);
         }
         collectionManager.collection().addAll(parsedProductCollector);
-        System.out.println("\u001B[32mCollection was successfully read from file.\u001B[0m");
     }
 
     public void run() {

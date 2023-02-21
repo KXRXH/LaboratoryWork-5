@@ -1,8 +1,14 @@
-
 plugins {
     id 'java'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'itmo.kxrxh.lab5.Main'
+        )
+    }
+}
 
 group 'itmo.kxrxh.lab5'
 version '1.0'

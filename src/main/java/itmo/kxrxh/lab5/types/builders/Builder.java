@@ -5,9 +5,9 @@ package itmo.kxrxh.lab5.types.builders;
  * <p>
  * Used for creating objects, while parsing XML.
  * To add validation, use annotations.
- * @see itmo.kxrxh.lab5.utils.annotations
  *
  * @author kxrxh
+ * @see itmo.kxrxh.lab5.utils.annotations
  * @see itmo.kxrxh.lab5.types.builders.ProductBuilder
  * @see itmo.kxrxh.lab5.types.builders.CoordinatesBuilder
  * @see itmo.kxrxh.lab5.types.builders.OrganizationBuilder

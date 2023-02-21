@@ -8,7 +8,7 @@ import itmo.kxrxh.lab5.collection.manager.CollectionManager;
  *
  * @author kxrxh
  */
-public abstract class CollectionDependent implements Executable {
+public abstract class CollectionDependentCommand implements Executable {
     /**
      * Collection manager
      *

@@ -2,7 +2,7 @@ package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.collection.CollectionCore;
 import itmo.kxrxh.lab5.collection.manager.CollectionManager;
-import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
 import itmo.kxrxh.lab5.commands.Executable;
 
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author kxrxh
  */
-public class ExecuteScriptCommand extends CollectionDependent {
+public class ExecuteScriptCommand extends CollectionDependentCommand {
 
     protected static final List<Executable> fileHistory = new ArrayList<>();
     protected final String[] commandArgs;

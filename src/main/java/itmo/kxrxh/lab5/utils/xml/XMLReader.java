@@ -4,7 +4,6 @@ import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
-import itmo.kxrxh.lab5.utils.xml.exceptions.FileNameIsNullException;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -23,6 +22,10 @@ import static itmo.kxrxh.lab5.utils.strings.StringUtils.toCamelCase;
 public class XMLReader extends XmlAction {
     public XMLReader(XML xml) {
         super(xml);
+    }
+
+    private static Field findField(Object item, String fieldName) {
+        return Arrays.stream(item.getClass().getDeclaredFields()).filter(f -> f.getName().equals(fieldName)).findFirst().orElse(null);
     }
 
     public ProductCollector parse() {
@@ -114,10 +117,6 @@ public class XMLReader extends XmlAction {
         } else {
             setFieldValue(field, item, value);
         }
-    }
-
-    private static Field findField(Object item, String fieldName) {
-        return Arrays.stream(item.getClass().getDeclaredFields()).filter(f -> f.getName().equals(fieldName)).findFirst().orElse(null);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

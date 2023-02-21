@@ -1,6 +1,6 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
-import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.types.Product;
 
 /**
@@ -8,7 +8,7 @@ import itmo.kxrxh.lab5.types.Product;
  *
  * @author kxrxh
  */
-public final class HeadCommand extends CollectionDependent {
+public final class HeadCommand extends CollectionDependentCommand {
     @Override
     public void execute() {
         Product head = collectionManager.head();

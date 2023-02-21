@@ -14,6 +14,7 @@ public final class CommandInvoker {
     static SizedStack<String> getExecuteHistory() {
         return executeHistory;
     }
+
     public static int getHistorySize() {
         return executeHistory.size();
     }

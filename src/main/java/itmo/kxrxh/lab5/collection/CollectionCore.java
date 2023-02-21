@@ -18,18 +18,18 @@ import java.util.Scanner;
 
 
 public class CollectionCore {
-    private static CollectionManager collectionManager;
     private static final CommandBuilder commandBuilder = new CommandBuilder();
     private static final CommandInvoker commandInvoker = new CommandInvoker();
-
-    private XML xmlCore;
     private static final DotEnv dotEnv;
+    private static CollectionManager collectionManager;
 
     static {
         dotEnv = new DotEnv(".env");
         // Reading .env file
         dotEnv.load();
     }
+
+    private XML xmlCore;
 
     public CollectionCore() {
     }

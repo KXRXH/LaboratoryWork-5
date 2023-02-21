@@ -1,7 +1,5 @@
 package itmo.kxrxh.lab5.utils.xml;
 
-import itmo.kxrxh.lab5.utils.xml.exceptions.UnableToCreateFileException;
-
 import java.io.File;
 
 public class XML {

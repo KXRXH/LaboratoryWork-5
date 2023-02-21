@@ -18,14 +18,14 @@ public record CollectionManager(ProductCollector collection) {
     }
 
     /**
-     * Print info about collection
+     * Prints info about collection
      */
     public void getInfo() {
         collection.getInfo();
     }
 
     /**
-     * Print collection
+     * Prints collection
      */
     public void show() {
         collection.forEach(System.out::println);
@@ -44,7 +44,7 @@ public record CollectionManager(ProductCollector collection) {
     }
 
     /**
-     * Return sum of price of all products
+     * Returns sum of price of all products
      *
      * @return sum of price of all products
      */
@@ -53,7 +53,7 @@ public record CollectionManager(ProductCollector collection) {
     }
 
     /**
-     * Remove product by id
+     * Removes product by id
      *
      * @param id id of the product
      */

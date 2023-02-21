@@ -1,7 +1,7 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.Constants;
-import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.utils.TempFiles;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
 import itmo.kxrxh.lab5.utils.terminal.Colors;
@@ -10,7 +10,7 @@ import itmo.kxrxh.lab5.utils.xml.XML;
 import java.io.File;
 
 
-public class SaveCommand extends CollectionDependent {
+public class SaveCommand extends CollectionDependentCommand {
     @Override
     public void execute() {
         DotEnv dotEnv = new DotEnv(".env").load();

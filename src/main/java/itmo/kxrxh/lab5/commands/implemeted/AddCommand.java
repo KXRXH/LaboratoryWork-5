@@ -1,7 +1,7 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.Constants;
-import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
 import itmo.kxrxh.lab5.utils.annotations.*;
@@ -27,7 +27,7 @@ import java.util.Scanner;
  * @author kxrxh
  */
 @CollectionEditor
-public final class AddCommand extends CollectionDependent {
+public final class AddCommand extends CollectionDependentCommand {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override

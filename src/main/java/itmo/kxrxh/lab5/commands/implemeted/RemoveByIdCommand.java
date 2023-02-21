@@ -1,6 +1,6 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
-import itmo.kxrxh.lab5.commands.CollectionDependent;
+import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
 
 /**
@@ -9,7 +9,7 @@ import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
  * @author kxrxh
  */
 @CollectionEditor
-public final class RemoveByIdCommand extends CollectionDependent {
+public final class RemoveByIdCommand extends CollectionDependentCommand {
     private final long id;
 
     /**
@@ -17,6 +17,7 @@ public final class RemoveByIdCommand extends CollectionDependent {
      *
      * @param commandArgs Command arguments
      */
+    // FIXME: fix parse error
     public RemoveByIdCommand(String[] commandArgs) {
         if (commandArgs.length == 0) {
             throw new IllegalArgumentException("No arguments");

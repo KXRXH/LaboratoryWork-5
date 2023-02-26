@@ -2,9 +2,6 @@ package itmo.kxrxh.lab5;
 
 
 import itmo.kxrxh.lab5.collection.CollectionCore;
-import itmo.kxrxh.lab5.utils.TempFiles;
-
-import java.io.File;
 
 
 /**

@@ -1,9 +1,9 @@
 package itmo.kxrxh.lab5.utils.xml;
 
 public abstract class XmlAction {
-    protected XML xml;
+    protected Xml xml;
 
-    public XmlAction(XML xml) {
+    public XmlAction(Xml xml) {
         this.xml = xml;
     }
 }

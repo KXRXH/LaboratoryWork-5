@@ -5,7 +5,7 @@ import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
 import itmo.kxrxh.lab5.utils.TempFiles;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
 import itmo.kxrxh.lab5.utils.terminal.Colors;
-import itmo.kxrxh.lab5.utils.xml.XML;
+import itmo.kxrxh.lab5.utils.xml.Xml;
 
 import java.io.File;
 
@@ -15,9 +15,9 @@ public class SaveCommand extends CollectionDependentCommand {
     public void execute() {
         DotEnv dotEnv = new DotEnv(".env").load();
         dotEnv.load();
-        XML xmlCore;
+        Xml xmlCore;
         try {
-            xmlCore = new XML(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
+            xmlCore = new Xml(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
         } catch (Exception e) {
             throw new RuntimeException("Unable to save collection", e);
         }

@@ -67,4 +67,17 @@ public class Address {
         if (!street.equals(address.street)) return false;
         return zipCode.equals(address.zipCode);
     }
+
+    public int compareTo(Address address) {
+        int sum = 0;
+        sum += this.street.compareTo(address.street);
+        sum += this.zipCode.compareTo(address.zipCode);
+        if (sum <= -1) {
+            return -1;
+        }
+        if (sum >= 1) {
+            return 1;
+        }
+        return 0;
+    }
 }

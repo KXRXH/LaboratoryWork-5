@@ -1,6 +1,5 @@
 package itmo.kxrxh.lab5.types;
 
-import itmo.kxrxh.lab5.utils.generators.IdGenerator;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -21,18 +20,6 @@ public class Organization {
     private final OrganizationType type;
 
     private final Address postalAddress;
-
-    /**
-     * Instantiates a new Organization.
-     *
-     * @param name           name of the organization
-     * @param employeesCount number of employees
-     * @param type           type of the organization
-     * @param postalAddress  postal address of the organization
-     */
-    public Organization(String name, int employeesCount, OrganizationType type, Address postalAddress) {
-        this(IdGenerator.generateLongId(), name, employeesCount, type, postalAddress);
-    }
 
     /**
      * @param id             unique id
@@ -106,5 +93,20 @@ public class Organization {
     @Override
     public String toString() {
         return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", employeesCount=" + employeesCount + ", type=" + type + ", postalAddress=" + postalAddress + '}';
+    }
+
+    public int compareTo(Organization organization) {
+        int sum = 0;
+        sum += this.getName().compareTo(organization.getName());
+        sum += this.getType().compareTo(organization.getType());
+        sum += this.getEmployeesCount() - organization.getEmployeesCount();
+        sum += this.getPostalAddress().compareTo(organization.getPostalAddress());
+        if (sum <= -1) {
+            return -1;
+        }
+        if (sum >= 1) {
+            return 1;
+        }
+        return 0;
     }
 }

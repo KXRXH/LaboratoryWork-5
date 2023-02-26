@@ -104,4 +104,14 @@ public class ProductCollector extends LinkedList<Product> implements BasicCollec
         set(i, get(j));
         set(j, temp);
     }
+
+    public Product getMax() {
+        Product max = get(0);
+        for (Product product : this) {
+            if (product.compareTo(max) > 0) {
+                max = product;
+            }
+        }
+        return max;
+    }
 }

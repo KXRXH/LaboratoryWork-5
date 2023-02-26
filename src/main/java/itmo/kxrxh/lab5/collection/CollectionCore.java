@@ -8,8 +8,8 @@ import itmo.kxrxh.lab5.commands.Executable;
 import itmo.kxrxh.lab5.utils.TempFiles;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
 import itmo.kxrxh.lab5.utils.terminal.Colors;
-import itmo.kxrxh.lab5.utils.xml.XML;
-import itmo.kxrxh.lab5.utils.xml.XMLReader;
+import itmo.kxrxh.lab5.utils.xml.Xml;
+import itmo.kxrxh.lab5.utils.xml.XmlReader;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class CollectionCore {
         dotEnv.load();
     }
 
-    private XML xmlCore;
+    private Xml xmlCore;
 
     public CollectionCore() {
     }
@@ -49,7 +49,7 @@ public class CollectionCore {
     public CollectionCore init() {
         ProductCollector productCollector = new ProductCollector();
         collectionManager = new CollectionManager(productCollector);
-        xmlCore = new XML(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
+        xmlCore = new Xml(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
         return this;
     }
 
@@ -93,7 +93,7 @@ public class CollectionCore {
     }
 
     public void fillOutCollection() {
-        XMLReader xmlReader;
+        XmlReader xmlReader;
         xmlReader = xmlCore.newReader();
         // Parsing collection from file
         System.out.println(Colors.ANSI_YELLOW + "Reading collection from file..." + Colors.ANSI_RESET);

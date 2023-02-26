@@ -151,7 +151,20 @@ public class Product {
      * @return 0 if equal, 1 if greater, -1 if less
      */
     public int compareTo(Product pivot) {
-        return this.id.compareTo(pivot.id);
+        int sum = 0;
+        sum += this.getCoordinates().compareTo(pivot.getCoordinates());
+        sum += this.getCreationDate().compareTo(pivot.getCreationDate());
+        sum += this.getPrice().compareTo(pivot.getPrice());
+        sum += this.getPartNumber().compareTo(pivot.getPartNumber());
+        sum += this.getUnitOfMeasure().compareTo(pivot.getUnitOfMeasure());
+        sum += this.getManufacturer().compareTo(pivot.getManufacturer());
+        if (sum >= 1) {
+            return 1;
+        }
+        if (sum <= -1) {
+            return -1;
+        }
+        return 0;
     }
 
     @Override

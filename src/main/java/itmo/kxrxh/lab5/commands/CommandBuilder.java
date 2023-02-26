@@ -48,10 +48,9 @@ public class CommandBuilder {
             case "remove_by_id" -> new RemoveByIdCommand(commandArgs);
             case "save" -> new SaveCommand();
             case "add_if_max" -> new AddIfMaxCommand();
-            case "update_id" -> new UpdateByIdCommand();
+            case "update_id" -> new UpdateByIdCommand(commandArgs);
             case "remove_greater" -> new RemoveGreaterCommand();
             case "average_of_manufacture_cost" -> new AverageOfManufactureCostCommand();
-            case "count_greater_than_manufacturer" -> new CountGreaterThanManufacturerCommand();
             default -> new UnknownCommand();
         };
     }

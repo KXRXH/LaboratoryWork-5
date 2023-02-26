@@ -2,19 +2,19 @@ package itmo.kxrxh.lab5.utils.xml;
 
 import java.io.File;
 
-public class XML {
+public class Xml {
     protected final File xmlFile;
 
-    public XML(File xmlFile) {
+    public Xml(File xmlFile) {
         this.xmlFile = xmlFile;
     }
 
-    public XMLReader newReader() {
-        return new XMLReader(this);
+    public XmlReader newReader() {
+        return new XmlReader(this);
     }
 
-    public XMLWriter newWriter() {
-        return new XMLWriter(this);
+    public XmlWriter newWriter() {
+        return new XmlWriter(this);
     }
 
     public File getXmlFile() {

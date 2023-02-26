@@ -17,16 +17,23 @@ public final class RemoveByIdCommand extends CollectionDependentCommand {
      *
      * @param commandArgs Command arguments
      */
-    // FIXME: fix parse error
     public RemoveByIdCommand(String[] commandArgs) {
         if (commandArgs.length == 0) {
             throw new IllegalArgumentException("No arguments");
         }
-        id = Long.parseLong(commandArgs[0]);
+        try {
+            id = Long.parseLong(commandArgs[0]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid id value");
+        }
     }
 
     @Override
     public void execute() {
-        collectionManager.removeById(id);
+        if (collectionManager.collectionContainsItemWithId(id)) {
+            collectionManager.removeById(id);
+            return;
+        }
+        throw new RuntimeException("No such item with given id: " + id);
     }
 }

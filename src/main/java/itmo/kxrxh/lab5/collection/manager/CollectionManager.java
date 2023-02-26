@@ -4,6 +4,8 @@ import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * Record for managing collection
  *
@@ -22,6 +24,19 @@ public record CollectionManager(ProductCollector collection) {
      */
     public void getInfo() {
         collection.getInfo();
+    }
+
+    /**
+     * @param id id of product
+     * @return true if product with given id is in collection, else false
+     */
+    public boolean collectionContainsItemWithId(long id) {
+        for (Product product : collection) {
+            if (product.getId() == id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -63,5 +78,35 @@ public record CollectionManager(ProductCollector collection) {
 
     public void add(Product product) {
         collection.add(product);
+    }
+
+    public void updateItem(Product newProduct) {
+        for (Product product : collection) {
+            if (Objects.equals(product.getId(), newProduct.getId())) {
+                collection.remove(product);
+                collection.add(product);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Removes all products which greater than given
+     *
+     * @param pivotProduct product to compare with
+     */
+    public void removeGreaterItems(Product pivotProduct) {
+        collection.removeIf(product -> product.compareTo(pivotProduct) > 0);
+    }
+
+    public void addIfMax(Product newProduct) {
+        if (collection.size() == 0) {
+            collection.add(newProduct);
+            return;
+        }
+        Product maxProduct = collection.getMax();
+        if (maxProduct.compareTo(newProduct) > 0) {
+            collection.add(newProduct);
+        }
     }
 }

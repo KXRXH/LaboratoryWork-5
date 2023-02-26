@@ -19,13 +19,4 @@ public abstract class CollectionDependentCommand implements Executable {
     @Override
     public void execute() {
     }
-
-    /**
-     * Getter for collection manager
-     *
-     * @return Collection manager
-     */
-    public CollectionManager getCollectionManager() {
-        return collectionManager;
-    }
 }

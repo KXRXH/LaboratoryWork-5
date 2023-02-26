@@ -19,8 +19,8 @@ import java.util.Collection;
 
 import static itmo.kxrxh.lab5.utils.strings.StringUtils.toCamelCase;
 
-public class XMLReader extends XmlAction {
-    public XMLReader(XML xml) {
+public class XmlReader extends XmlAction {
+    public XmlReader(Xml xml) {
         super(xml);
     }
 

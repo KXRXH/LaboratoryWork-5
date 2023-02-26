@@ -17,14 +17,14 @@ import static itmo.kxrxh.lab5.utils.strings.StringUtils.toSnakeCase;
  * Xml writer class. Used for writing to xml file
  *
  * @author kxrxh
- * @see XML
+ * @see Xml
  * @see XmlAction
  */
-public class XMLWriter extends XmlAction {
+public class XmlWriter extends XmlAction {
     private final BufferedOutputStream bufferedOutput;
     private int indentLevel = 0;
 
-    protected XMLWriter(XML xml) {
+    protected XmlWriter(Xml xml) {
         super(xml);
         try {
             this.bufferedOutput = new BufferedOutputStream(new FileOutputStream(xml.getXmlFile()));

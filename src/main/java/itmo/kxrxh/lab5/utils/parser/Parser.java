@@ -24,6 +24,7 @@ import java.util.Scanner;
 
 public class Parser {
     private static final Scanner scanner = new Scanner(System.in);
+
     /**
      * This method reads object of type T from console.
      * It uses builder pattern to create object. It reads all fields of the object
@@ -136,15 +137,16 @@ public class Parser {
                 System.out.printf("%sInput is not of type %s%s%n", Colors.AsciiRed, numType, Colors.AsciiReset);
                 continue;
             }
+
+            value = switch (numType) {
+                case "Integer" -> value.intValue();
+                case "Long" -> value.longValue();
+                case "Double" -> value.doubleValue();
+                case "Float" -> value.floatValue();
+                default -> value;
+            };
             if (checkNumber(field, value)) {
-                value = switch (numType) {
-                    case "Integer" -> value.intValue();
-                    case "Long" -> value.longValue();
-                    case "Double" -> value.doubleValue();
-                    case "Float" -> value.floatValue();
-                    default -> value;
-                };
-                System.out.println(value);
+                // System.out.println(value);
                 setValueToField(field, object, value);
                 break;
             }

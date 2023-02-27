@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Value {
-    double min() default Double.MIN_VALUE;
+    double min() default Double.NEGATIVE_INFINITY;
 
-    double max() default Double.MAX_VALUE;
+    double max() default Double.POSITIVE_INFINITY;
 }

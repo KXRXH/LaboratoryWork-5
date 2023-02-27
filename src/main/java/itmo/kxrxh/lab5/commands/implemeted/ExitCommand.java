@@ -20,8 +20,8 @@ public class ExitCommand implements Executable {
     @Override
     public void execute() {
         if (commandHistorySize >= 1) {
-            System.out.println(Colors.ANSI_YELLOW + "Unsaved data can be lost!" + Colors.ANSI_RESET);
-            System.out.print(Colors.ANSI_YELLOW + "Save the collection before exiting (y/n): " + Colors.ANSI_RESET);
+            System.out.println(Colors.AsciiYellow + "Unsaved data can be lost!" + Colors.AsciiReset);
+            System.out.print(Colors.AsciiYellow + "Save the collection before exiting (y/n): " + Colors.AsciiReset);
             Scanner scanner = new Scanner(System.in);
             String answer = scanner.nextLine().toLowerCase();
             if (answer.equals("y") || answer.equals("yes")) {
@@ -32,7 +32,7 @@ public class ExitCommand implements Executable {
                 }
             }
         }
-        System.out.println(Colors.ANSI_GREEN + "Exiting..." + Colors.ANSI_RESET);
+        System.out.println(Colors.AsciiGreen + "Exiting..." + Colors.AsciiReset);
         System.exit(0);
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @see UnitOfMeasure
  * @see Organization
  */
-public class Product {
+public class Product implements Comparable<Product> {
     private final Integer id; // Значение поля должно быть больше 0, Поле не может быть null, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
     private final String name; // Поле не может быть null, Строка не может быть пустой
@@ -150,6 +150,7 @@ public class Product {
      * @param pivot product to compare with
      * @return 0 if equal, 1 if greater, -1 if less
      */
+    @Override
     public int compareTo(Product pivot) {
         int sum = 0;
         sum += this.getCoordinates().compareTo(pivot.getCoordinates());

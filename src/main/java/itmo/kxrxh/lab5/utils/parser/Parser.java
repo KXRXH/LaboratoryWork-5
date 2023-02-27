@@ -24,6 +24,7 @@ import java.util.Scanner;
 
 public class Parser {
     private static final Scanner scanner = new Scanner(System.in);
+
     /**
      * This method reads object of type T from console.
      * It uses builder pattern to create object. It reads all fields of the object
@@ -42,7 +43,7 @@ public class Parser {
         // Getting class of the class builder for the object.
         Class<?> builderClass;
         try {
-            builderClass = Class.forName("%s.%sBuilder".formatted(Constants.buildersPath, objectType.getSimpleName()));
+            builderClass = Class.forName("%s.%sBuilder".formatted(Constants.BuildersPath, objectType.getSimpleName()));
         } catch (ClassNotFoundException e) {
             System.out.println("Can't find builder for class: " + objectType.getSimpleName());
             return null;
@@ -56,7 +57,7 @@ public class Parser {
             System.out.println("Can't create builder");
             return null;
         }
-        System.out.printf("%s%s%s%n", Colors.ANSI_RED, objectType.getSimpleName(), Colors.ANSI_RESET);
+        System.out.printf("%s%s%s%n", Colors.AsciiRed, objectType.getSimpleName(), Colors.AsciiReset);
         for (Field field : builderClass.getDeclaredFields()) {
             field.setAccessible(true);
             // If field is Enum then converting string value to Enum<?> value.
@@ -106,6 +107,9 @@ public class Parser {
                             return null;
                         }
                         if (checkString(field, value)) {
+                            if (value.equals("")) {
+                                value = null;
+                            }
                             setValueToField(field, object, value);
                             break;
                         }
@@ -133,18 +137,19 @@ public class Parser {
             try {
                 value = NumberFormat.getInstance().parse(scanner.nextLine());
             } catch (ParseException e) {
-                System.out.printf("%sInput is not of type %s%s%n", Colors.ANSI_RED, numType, Colors.ANSI_RESET);
+                System.err.printf("%sInput is not of type %s%s%n", Colors.AsciiRed, numType, Colors.AsciiReset);
                 continue;
             }
+
+            value = switch (numType) {
+                case "Integer" -> value.intValue();
+                case "Long" -> value.longValue();
+                case "Double" -> value.doubleValue();
+                case "Float" -> value.floatValue();
+                default -> value;
+            };
             if (checkNumber(field, value)) {
-                value = switch (numType) {
-                    case "Integer" -> value.intValue();
-                    case "Long" -> value.longValue();
-                    case "Double" -> value.doubleValue();
-                    case "Float" -> value.floatValue();
-                    default -> value;
-                };
-                System.out.println(value);
+                // System.out.println(value);
                 setValueToField(field, object, value);
                 break;
             }
@@ -168,11 +173,11 @@ public class Parser {
         }
         if (valueAnnotation != null) {
             if (value.doubleValue() <= valueAnnotation.min()) {
-                System.out.printf("%sValue must be greater than %s%s%n".formatted(Colors.ANSI_RED, valueAnnotation.min(), Colors.ANSI_RESET));
+                System.err.printf("%sValue must be greater than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.min(), Colors.AsciiReset));
                 return false;
             }
             if (value.doubleValue() >= valueAnnotation.max()) {
-                System.out.printf("%sValue must be less than %s%s%n".formatted(Colors.ANSI_RED, valueAnnotation.max(), Colors.ANSI_RESET));
+                System.err.printf("%sValue must be less than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.max(), Colors.AsciiReset));
                 return false;
             }
         }
@@ -194,17 +199,17 @@ public class Parser {
      */
     private static boolean checkString(Field field, String value) {
         if (field.isAnnotationPresent(NonNull.class) && value.isEmpty()) {
-            System.out.println("Field can't be null");
+            System.err.println("Field can't be null");
             return false;
         }
         if (field.isAnnotationPresent(Length.class)) {
             Length lengthAnnotation = field.getAnnotation(Length.class);
             if (value.length() < lengthAnnotation.min()) {
-                System.out.printf("\u001B[31mLength must be greater than %d\n\u001B[0m", lengthAnnotation.min() - 1);
+                System.err.printf("\u001B[31mLength must be greater than %d\n\u001B[0m", lengthAnnotation.min() - 1);
                 return false;
             }
             if (value.length() > lengthAnnotation.max()) {
-                System.out.printf("\u001B[31mLength must be less than %d\n\u001B[0m", lengthAnnotation.max() + 1);
+                System.err.printf("\u001B[31mLength must be less than %d\n\u001B[0m", lengthAnnotation.max() + 1);
                 return false;
             }
         }
@@ -242,7 +247,7 @@ public class Parser {
         } catch (IllegalAccessException e) {
             System.out.println("\u001B[31mCan't set value to field\u001B[0m");
         } catch (InputMismatchException e) {
-            System.out.printf("%sWrong input%s%s%n", Colors.ANSI_RED, e.getMessage(), Colors.ANSI_RESET);
+            System.out.printf("%sWrong input%s%s%n", Colors.AsciiRed, e.getMessage(), Colors.AsciiReset);
         }
     }
 

@@ -2,6 +2,7 @@ package itmo.kxrxh.lab5.collection.manager;
 
 import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
+import itmo.kxrxh.lab5.utils.terminal.Printer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -43,7 +44,11 @@ public record CollectionManager(ProductCollector collection) {
      * Prints collection
      */
     public void show() {
-        collection.forEach(System.out::println);
+        int c = 1;
+        for (Product product : collection) {
+            System.out.println(c++ + ". Product:");
+            Printer.print(product, 1);
+        }
     }
 
     /**

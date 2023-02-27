@@ -5,7 +5,7 @@ package itmo.kxrxh.lab5.types;
  *
  * @author kxrxh
  */
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates> {
     private final Integer x; // Максимальное значение поля: 444, Поле не может быть null
     private final double y; // Значение поля должно быть больше -368
 
@@ -40,6 +40,7 @@ public class Coordinates {
      * @param pivot product to compare with
      * @return 0 if equal, 1 if greater, -1 if less
      */
+    @Override
     public int compareTo(Coordinates pivot) {
         int sum = 0;
         sum += this.x.compareTo(pivot.x);

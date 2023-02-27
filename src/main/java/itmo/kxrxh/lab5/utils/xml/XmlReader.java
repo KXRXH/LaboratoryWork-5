@@ -4,6 +4,7 @@ import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
+import itmo.kxrxh.lab5.utils.terminal.Colors;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -16,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 import static itmo.kxrxh.lab5.utils.strings.StringUtils.toCamelCase;
 
@@ -31,6 +33,16 @@ public class XmlReader extends XmlAction {
     public ProductCollector parse() {
         ProductCollector productCollector;
         productCollector = readXML(xml.getXmlFile());
+        // Checking product uniqueness
+        if (productCollector.size() > 1) {
+            for (Product product : productCollector) {
+                if (productCollector.stream().anyMatch(p -> Objects.equals(p.getId(), product.getId()) && p != product)) {
+                    System.out.printf("%sWARNING: Product with id %s%d%s already exists%s%n", Colors.AsciiYellow, Colors.AsciiRed, product.getId(), Colors.AsciiYellow, Colors.AsciiReset);
+                    System.out.printf("%sRemoving duplicate product with id %d%s%n", Colors.AsciiYellow, product.getId(), Colors.AsciiReset);
+                    productCollector.remove(product);
+                }
+            }
+        }
         return productCollector;
     }
 
@@ -41,29 +53,29 @@ public class XmlReader extends XmlAction {
     }
 
     private ProductCollector readXML(File file) {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document doc;
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        Document document;
         try {
-            doc = dbf.newDocumentBuilder().parse(file);
+            document = documentBuilderFactory.newDocumentBuilder().parse(file);
         } catch (SAXException | IOException | ParserConfigurationException e) {
             throw new RuntimeException(e);
         }
-        doc.normalizeDocument();
-        Element root = doc.getDocumentElement();
+        document.normalizeDocument();
+        Element root = document.getDocumentElement();
         NodeList rootTree = root.getChildNodes();
         ProductCollector productCollector = new ProductCollector();
         for (int i = 0; i < rootTree.getLength(); i++) {
             Node node = rootTree.item(i);
             // Getting only Products
             if (node.getNodeName().equals("Product")) {
-                Product pr;
+                Product product;
                 try {
-                    pr = (Product) parseItem(node);
+                    product = (Product) parseItem(node);
                 } catch (ClassNotFoundException e) {
                     System.err.println(e.getMessage());
                     continue;
                 }
-                productCollector.add(pr);
+                productCollector.add(product);
             }
         }
         return productCollector;
@@ -131,7 +143,7 @@ public class XmlReader extends XmlAction {
     private <T> void setFieldValue(Field field, Object item, T value) {
         try {
             Class<?> type = field.getType();
-            if (value == "null") {
+            if (value.equals("null")) {
                 field.set(item, null);
                 return;
             }

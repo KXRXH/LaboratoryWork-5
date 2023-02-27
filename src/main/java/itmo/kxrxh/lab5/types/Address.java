@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author kxrxh
  */
-public class Address {
+public class Address implements Comparable<Address> {
     private final String street; // Строка не может быть пустой, Поле не может быть null
 
     private final String zipCode; // Поле может быть null
@@ -68,6 +68,7 @@ public class Address {
         return zipCode.equals(address.zipCode);
     }
 
+    @Override
     public int compareTo(Address address) {
         int sum = 0;
         sum += this.street.compareTo(address.street);

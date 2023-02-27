@@ -49,7 +49,7 @@ public class CollectionCore {
     public CollectionCore init() {
         ProductCollector productCollector = new ProductCollector();
         collectionManager = new CollectionManager(productCollector);
-        xmlCore = new Xml(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
+        xmlCore = new Xml(new File(dotEnv.get(Constants.EnvironmentVariable)));
         return this;
     }
 
@@ -57,13 +57,13 @@ public class CollectionCore {
         if (TempFiles.getTempFiles().length == 0) {
             return false;
         }
-        System.out.println(Colors.ANSI_YELLOW + "The previous session was terminated without saving." + " You can restore a collection from a restore point." + "\nTo select restore point, just write it number." + "\nTo skip restoration just write anything." + "\nAvailable restore points:" + Colors.ANSI_RESET);
+        System.out.println(Colors.AsciiYellow + "The previous session was terminated without saving." + " You can restore a collection from a restore point." + "\nTo select restore point, just write it number." + "\nTo skip restoration just write anything." + "\nAvailable restore points:" + Colors.AsciiReset);
         ArrayList<ProductCollector> restorePoints = new ArrayList<>();
         int c = 1;
         for (File tmpFile : TempFiles.getTempFiles()) {
             ProductCollector pc = xmlCore.newReader().parse(tmpFile);
             restorePoints.add(pc);
-            System.out.println(Colors.ANSI_CYAN + c++ + ". " + pc.toString() + Colors.ANSI_RESET);
+            System.out.println(Colors.AsciiCyan + c++ + ". " + pc.toString() + Colors.AsciiReset);
         }
         Scanner in = new Scanner(System.in);
         while (true) {
@@ -76,7 +76,7 @@ public class CollectionCore {
                 System.err.println("EOF");
                 return false;
             }
-            System.out.print(Colors.ANSI_RESET);
+            System.out.print(Colors.AsciiReset);
             int restorePoint;
             try {
                 restorePoint = Integer.parseInt(userInput);
@@ -96,14 +96,14 @@ public class CollectionCore {
         XmlReader xmlReader;
         xmlReader = xmlCore.newReader();
         // Parsing collection from file
-        System.out.println(Colors.ANSI_YELLOW + "Reading collection from file..." + Colors.ANSI_RESET);
+        System.out.println(Colors.AsciiYellow + "Reading collection from file..." + Colors.AsciiReset);
         ProductCollector parsedProductCollector = new ProductCollector();
         try {
             parsedProductCollector = xmlReader.parse();
             System.out.println("\u001B[32mCollection was successfully read from file.\u001B[0m");
         } catch (Exception e) {
-            System.out.println(Colors.ANSI_PURPLE + "Unable to find collection file.");
-            System.out.println(Colors.ANSI_GREEN + "Creating new collection" + Colors.ANSI_RESET);
+            System.out.println(Colors.AsciiPurple + "Unable to find collection file.");
+            System.out.println(Colors.AsciiGreen + "Creating new collection" + Colors.AsciiReset);
         }
         collectionManager.collection().addAll(parsedProductCollector);
     }
@@ -121,7 +121,7 @@ public class CollectionCore {
                 System.err.println("EOF");
                 return;
             }
-            System.out.print(Colors.ANSI_RESET);
+            System.out.print(Colors.AsciiReset);
             try {
                 Executable executable = commandBuilder.buildCommand(userInput);
                 commandInvoker.execute(executable);

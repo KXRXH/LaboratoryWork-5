@@ -1,5 +1,6 @@
 package itmo.kxrxh.lab5.utils.generators;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -12,11 +13,11 @@ public final class IdGenerator {
     /**
      * Unique id. Starts from 1
      */
-    private static final AtomicLong long_id_counter = new AtomicLong(0);
+    private static final AtomicLong longIdCounter = new AtomicLong(new Random().nextLong());
     /**
      * Unique id. Starts from 1
      */
-    private static final AtomicInteger int_id_counter = new AtomicInteger(0);
+    private static final AtomicInteger intIdCounter = new AtomicInteger(new Random().nextInt());
 
     /**
      * Generate unique id of type long
@@ -24,7 +25,7 @@ public final class IdGenerator {
      * @return unique id
      */
     public static Long generateLongId() {
-        return long_id_counter.incrementAndGet();
+        return longIdCounter.incrementAndGet();
     }
 
     /**
@@ -33,6 +34,6 @@ public final class IdGenerator {
      * @return unique id
      */
     public static Integer generateIntId() {
-        return int_id_counter.incrementAndGet();
+        return intIdCounter.incrementAndGet();
     }
 }

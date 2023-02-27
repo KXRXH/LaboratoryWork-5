@@ -7,9 +7,9 @@ public final class Constants {
     /**
      * Name of the ENV variable
      */
-    public static final String ENVIRONMENT_VARIABLE = "FILE_NAME";
+    public static final String EnvironmentVariable = "FILE_NAME";
     /**
      * Path ot builder classes
      */
-    public static final String buildersPath = "itmo.kxrxh.lab5.types.builders";
+    public static final String BuildersPath = "itmo.kxrxh.lab5.types.builders";
 }

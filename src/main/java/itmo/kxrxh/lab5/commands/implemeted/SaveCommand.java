@@ -17,7 +17,7 @@ public class SaveCommand extends CollectionDependentCommand {
         dotEnv.load();
         Xml xmlCore;
         try {
-            xmlCore = new Xml(new File(dotEnv.get(Constants.ENVIRONMENT_VARIABLE)));
+            xmlCore = new Xml(new File(dotEnv.get(Constants.EnvironmentVariable)));
         } catch (Exception e) {
             throw new RuntimeException("Unable to save collection", e);
         }
@@ -29,6 +29,6 @@ public class SaveCommand extends CollectionDependentCommand {
             System.err.println("Unable to save collection: " + e.getMessage());
             return;
         }
-        System.out.println(Colors.ANSI_GREEN + "Collection was successfully saved." + Colors.ANSI_RESET);
+        System.out.println(Colors.AsciiGreen + "Collection was successfully saved." + Colors.AsciiReset);
     }
 }

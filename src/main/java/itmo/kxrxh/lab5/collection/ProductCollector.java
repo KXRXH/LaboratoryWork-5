@@ -2,6 +2,7 @@ package itmo.kxrxh.lab5.collection;
 
 
 import itmo.kxrxh.lab5.types.Product;
+import itmo.kxrxh.lab5.utils.terminal.Printer;
 
 import java.util.LinkedList;
 
@@ -34,9 +35,9 @@ public class ProductCollector extends LinkedList<Product> implements BasicCollec
         System.out.println("Type of collection's items: " + this.getFirst().getClass().getName());
         System.out.println("Size: " + this.size());
         System.out.println("List of elements:");
-        System.out.println("[");
+        System.out.println("{");
         this.forEach(System.out::println);
-        System.out.println("]");
+        System.out.println("}");
     }
 
     /**

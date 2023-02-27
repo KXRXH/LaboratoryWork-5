@@ -107,6 +107,9 @@ public class Parser {
                             return null;
                         }
                         if (checkString(field, value)) {
+                            if (value.equals("")) {
+                                value = null;
+                            }
                             setValueToField(field, object, value);
                             break;
                         }
@@ -134,7 +137,7 @@ public class Parser {
             try {
                 value = NumberFormat.getInstance().parse(scanner.nextLine());
             } catch (ParseException e) {
-                System.out.printf("%sInput is not of type %s%s%n", Colors.AsciiRed, numType, Colors.AsciiReset);
+                System.err.printf("%sInput is not of type %s%s%n", Colors.AsciiRed, numType, Colors.AsciiReset);
                 continue;
             }
 
@@ -170,11 +173,11 @@ public class Parser {
         }
         if (valueAnnotation != null) {
             if (value.doubleValue() <= valueAnnotation.min()) {
-                System.out.printf("%sValue must be greater than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.min(), Colors.AsciiReset));
+                System.err.printf("%sValue must be greater than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.min(), Colors.AsciiReset));
                 return false;
             }
             if (value.doubleValue() >= valueAnnotation.max()) {
-                System.out.printf("%sValue must be less than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.max(), Colors.AsciiReset));
+                System.err.printf("%sValue must be less than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.max(), Colors.AsciiReset));
                 return false;
             }
         }
@@ -196,17 +199,17 @@ public class Parser {
      */
     private static boolean checkString(Field field, String value) {
         if (field.isAnnotationPresent(NonNull.class) && value.isEmpty()) {
-            System.out.println("Field can't be null");
+            System.err.println("Field can't be null");
             return false;
         }
         if (field.isAnnotationPresent(Length.class)) {
             Length lengthAnnotation = field.getAnnotation(Length.class);
             if (value.length() < lengthAnnotation.min()) {
-                System.out.printf("\u001B[31mLength must be greater than %d\n\u001B[0m", lengthAnnotation.min() - 1);
+                System.err.printf("\u001B[31mLength must be greater than %d\n\u001B[0m", lengthAnnotation.min() - 1);
                 return false;
             }
             if (value.length() > lengthAnnotation.max()) {
-                System.out.printf("\u001B[31mLength must be less than %d\n\u001B[0m", lengthAnnotation.max() + 1);
+                System.err.printf("\u001B[31mLength must be less than %d\n\u001B[0m", lengthAnnotation.max() + 1);
                 return false;
             }
         }

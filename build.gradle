@@ -2,6 +2,11 @@ plugins {
     id 'java'
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
 jar {
     manifest {
         attributes(
@@ -24,10 +29,6 @@ dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
 }
 
-
-test {
-    useJUnitPlatform()
-}
 
 compileJava.options.encoding = 'UTF-8'
 

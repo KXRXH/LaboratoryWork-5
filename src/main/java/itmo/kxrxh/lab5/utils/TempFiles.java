@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public final class TempFiles {
-    private static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
+    private static final String TempDirectory = System.getProperty("java.io.tmpdir");
 
     /**
      * Methods for getting all temporary files from temp directory
@@ -15,7 +15,7 @@ public final class TempFiles {
      * @return array of temporary files
      */
     public static File[] getTempFiles() {
-        File dir = new File(TEMP_DIR);
+        File dir = new File(TempDirectory);
         return dir.listFiles((d, name) -> name.startsWith("lab5") && name.endsWith(".tmp"));
     }
 

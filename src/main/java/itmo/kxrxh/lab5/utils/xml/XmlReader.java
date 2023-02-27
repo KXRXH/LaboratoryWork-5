@@ -4,6 +4,7 @@ import itmo.kxrxh.lab5.collection.ProductCollector;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.types.builders.Builder;
 import itmo.kxrxh.lab5.utils.strings.StringUtils;
+import itmo.kxrxh.lab5.utils.terminal.Colors;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -16,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 import static itmo.kxrxh.lab5.utils.strings.StringUtils.toCamelCase;
 
@@ -31,6 +33,16 @@ public class XmlReader extends XmlAction {
     public ProductCollector parse() {
         ProductCollector productCollector;
         productCollector = readXML(xml.getXmlFile());
+        // Checking product uniqueness
+        if (productCollector.size() > 1) {
+            for (Product product : productCollector) {
+                if (productCollector.stream().anyMatch(p -> Objects.equals(p.getId(), product.getId()))) {
+                    System.out.printf("%sWARNING: Product with id %s%d%s already exists%s%n", Colors.AsciiYellow, Colors.AsciiRed, product.getId(), Colors.AsciiYellow, Colors.AsciiReset);
+                    System.out.printf("%sRemoving duplicate product with id %d%s%n", Colors.AsciiYellow, product.getId(), Colors.AsciiReset);
+                    productCollector.remove(product);
+                }
+            }
+        }
         return productCollector;
     }
 
@@ -131,7 +143,7 @@ public class XmlReader extends XmlAction {
     private <T> void setFieldValue(Field field, Object item, T value) {
         try {
             Class<?> type = field.getType();
-            if (value == "null") {
+            if (value.equals("null")) {
                 field.set(item, null);
                 return;
             }

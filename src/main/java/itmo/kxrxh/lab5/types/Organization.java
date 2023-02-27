@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * @see OrganizationType
  * @see Address
  */
-public class Organization {
+public class Organization implements Comparable<Organization> {
     private final long id;
 
     private final String name;
@@ -95,6 +95,7 @@ public class Organization {
         return "Organization{" + "id=" + id + ", name='" + name + '\'' + ", employeesCount=" + employeesCount + ", type=" + type + ", postalAddress=" + postalAddress + '}';
     }
 
+    @Override
     public int compareTo(Organization organization) {
         int sum = 0;
         sum += this.getName().compareTo(organization.getName());

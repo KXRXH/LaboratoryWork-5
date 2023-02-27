@@ -42,7 +42,7 @@ public class Parser {
         // Getting class of the class builder for the object.
         Class<?> builderClass;
         try {
-            builderClass = Class.forName("%s.%sBuilder".formatted(Constants.buildersPath, objectType.getSimpleName()));
+            builderClass = Class.forName("%s.%sBuilder".formatted(Constants.BuildersPath, objectType.getSimpleName()));
         } catch (ClassNotFoundException e) {
             System.out.println("Can't find builder for class: " + objectType.getSimpleName());
             return null;
@@ -56,7 +56,7 @@ public class Parser {
             System.out.println("Can't create builder");
             return null;
         }
-        System.out.printf("%s%s%s%n", Colors.ANSI_RED, objectType.getSimpleName(), Colors.ANSI_RESET);
+        System.out.printf("%s%s%s%n", Colors.AsciiRed, objectType.getSimpleName(), Colors.AsciiReset);
         for (Field field : builderClass.getDeclaredFields()) {
             field.setAccessible(true);
             // If field is Enum then converting string value to Enum<?> value.
@@ -133,7 +133,7 @@ public class Parser {
             try {
                 value = NumberFormat.getInstance().parse(scanner.nextLine());
             } catch (ParseException e) {
-                System.out.printf("%sInput is not of type %s%s%n", Colors.ANSI_RED, numType, Colors.ANSI_RESET);
+                System.out.printf("%sInput is not of type %s%s%n", Colors.AsciiRed, numType, Colors.AsciiReset);
                 continue;
             }
             if (checkNumber(field, value)) {
@@ -168,11 +168,11 @@ public class Parser {
         }
         if (valueAnnotation != null) {
             if (value.doubleValue() <= valueAnnotation.min()) {
-                System.out.printf("%sValue must be greater than %s%s%n".formatted(Colors.ANSI_RED, valueAnnotation.min(), Colors.ANSI_RESET));
+                System.out.printf("%sValue must be greater than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.min(), Colors.AsciiReset));
                 return false;
             }
             if (value.doubleValue() >= valueAnnotation.max()) {
-                System.out.printf("%sValue must be less than %s%s%n".formatted(Colors.ANSI_RED, valueAnnotation.max(), Colors.ANSI_RESET));
+                System.out.printf("%sValue must be less than %s%s%n".formatted(Colors.AsciiRed, valueAnnotation.max(), Colors.AsciiReset));
                 return false;
             }
         }
@@ -242,7 +242,7 @@ public class Parser {
         } catch (IllegalAccessException e) {
             System.out.println("\u001B[31mCan't set value to field\u001B[0m");
         } catch (InputMismatchException e) {
-            System.out.printf("%sWrong input%s%s%n", Colors.ANSI_RED, e.getMessage(), Colors.ANSI_RESET);
+            System.out.printf("%sWrong input%s%s%n", Colors.AsciiRed, e.getMessage(), Colors.AsciiReset);
         }
     }
 

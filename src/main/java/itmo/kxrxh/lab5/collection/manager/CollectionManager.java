@@ -5,8 +5,6 @@ import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.utils.terminal.Printer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 /**
  * Record for managing collection
  *
@@ -86,14 +84,10 @@ public record CollectionManager(ProductCollector collection) {
     }
 
     public void updateItem(Product newProduct) {
-        for (Product product : collection) {
-            if (Objects.equals(product.getId(), newProduct.getId())) {
-                collection.remove(product);
-                collection.add(product);
-                return;
-            }
-        }
+        this.removeById(newProduct.getId());
+        collection.add(newProduct);
     }
+
 
     /**
      * Removes all products which greater than given

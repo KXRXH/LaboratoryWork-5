@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @see Organization
  */
 public class Product implements Comparable<Product> {
-    private final Integer id; // Значение поля должно быть больше 0, Поле не может быть null, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Integer id; // Значение поля должно быть больше 0, Поле не может быть null, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
     private final String name; // Поле не может быть null, Строка не может быть пустой
 

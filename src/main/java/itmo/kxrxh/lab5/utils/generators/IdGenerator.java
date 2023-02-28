@@ -13,11 +13,11 @@ public final class IdGenerator {
     /**
      * Unique id. Starts from 1
      */
-    private static final AtomicLong longIdCounter = new AtomicLong(new Random().nextLong());
+    private static final AtomicLong longIdCounter = new AtomicLong(new Random().nextLong() & Long.MAX_VALUE);
     /**
      * Unique id. Starts from 1
      */
-    private static final AtomicInteger intIdCounter = new AtomicInteger(new Random().nextInt());
+    private static final AtomicInteger intIdCounter = new AtomicInteger(new Random().nextInt() & Integer.MAX_VALUE);
 
     /**
      * Generate unique id of type long

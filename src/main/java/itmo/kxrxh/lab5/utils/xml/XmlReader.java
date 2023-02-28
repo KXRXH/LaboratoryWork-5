@@ -136,7 +136,7 @@ public class XmlReader extends XmlAction {
         try {
             field.set(item, Enum.valueOf((Class<Enum>) field.getType(), (String) value));
         } catch (IllegalAccessException e) {
-            System.out.println("Error while parsing enum. Check if value is enum or enum has this value: " + value);
+            System.err.println("Error while parsing enum. Check if value is enum or enum has this value: " + value);
         }
     }
 

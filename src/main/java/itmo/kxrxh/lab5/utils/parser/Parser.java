@@ -45,7 +45,7 @@ public class Parser {
         try {
             builderClass = Class.forName("%s.%sBuilder".formatted(Constants.BuildersPath, objectType.getSimpleName()));
         } catch (ClassNotFoundException e) {
-            System.out.println("Can't find builder for class: " + objectType.getSimpleName());
+            System.err.println("Can't find builder for class: " + objectType.getSimpleName());
             return null;
         }
         // Creating builder object.
@@ -54,7 +54,7 @@ public class Parser {
             object = (Builder) builderClass.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
-            System.out.println("Can't create builder");
+            System.err.println("Can't create builder");
             return null;
         }
         System.out.printf("%s%s%s%n", Colors.AsciiRed, objectType.getSimpleName(), Colors.AsciiReset);
@@ -121,7 +121,7 @@ public class Parser {
                     try {
                         field.set(object, readObject(field.getType()));
                     } catch (IllegalAccessException e) {
-                        System.err.println("Can't s ");
+                        System.err.println("Cannot read field: " + field.getName());
                     }
                 }
             }
@@ -245,9 +245,9 @@ public class Parser {
         try {
             field.set(object, value);
         } catch (IllegalAccessException e) {
-            System.out.println("\u001B[31mCan't set value to field\u001B[0m");
+            System.err.println("\u001B[31mCan't set value to field\u001B[0m");
         } catch (InputMismatchException e) {
-            System.out.printf("%sWrong input%s%s%n", Colors.AsciiRed, e.getMessage(), Colors.AsciiReset);
+            System.err.printf("%sWrong input%s%s%n", Colors.AsciiRed, e.getMessage(), Colors.AsciiReset);
         }
     }
 

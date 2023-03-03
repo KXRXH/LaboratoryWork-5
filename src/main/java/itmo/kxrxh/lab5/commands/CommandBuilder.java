@@ -34,7 +34,7 @@ public class CommandBuilder {
             case "head" -> new HeadCommand();
             case "sum_of_price" -> new SumOfPriceCommand();
             case "history" -> new HistoryCommand(getExecuteHistory());
-            case "exit" -> new ExitCommand();
+            case "exit" -> new ExitCommand(getExecuteHistory());
             case "add" -> new AddCommand();
             case "execute_script" -> {
                 Executable executable = null;

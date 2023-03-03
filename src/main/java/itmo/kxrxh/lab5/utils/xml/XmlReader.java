@@ -52,7 +52,7 @@ public class XmlReader extends XmlAction {
         return productCollector;
     }
 
-    private ProductCollector readXML(File file) {
+    private ProductCollector readXML(File file) throws RuntimeException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         Document document;
         try {

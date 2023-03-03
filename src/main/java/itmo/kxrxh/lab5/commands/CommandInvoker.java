@@ -6,12 +6,12 @@ import itmo.kxrxh.lab5.utils.types.SizedStack;
 
 public final class CommandInvoker {
 
-    private static final SizedStack<String> executeHistory = new SizedStack<>(7);
+    private static final SizedStack<Executable> executeHistory = new SizedStack<>(7);
 
     public CommandInvoker() {
     }
 
-    static SizedStack<String> getExecuteHistory() {
+    static SizedStack<Executable> getExecuteHistory() {
         return executeHistory;
     }
 
@@ -20,7 +20,7 @@ public final class CommandInvoker {
     }
 
     public void execute(Executable executable) throws NoSuchFieldException {
-        getExecuteHistory().push(executable.getClass().getSimpleName());
+        getExecuteHistory().push(executable);
         executable.execute();
         if (executable.getClass().isAnnotationPresent(CollectionEditor.class)) {
             TempFiles.createTempFile();

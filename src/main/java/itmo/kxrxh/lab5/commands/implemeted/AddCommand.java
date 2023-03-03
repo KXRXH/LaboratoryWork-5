@@ -1,6 +1,7 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
+import itmo.kxrxh.lab5.commands.Command;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
 import itmo.kxrxh.lab5.utils.parser.Parser;
@@ -10,6 +11,7 @@ import itmo.kxrxh.lab5.utils.parser.Parser;
  *
  * @author kxrxh
  */
+@Command(name = "Add")
 @CollectionEditor
 public final class AddCommand extends CollectionDependentCommand {
     @Override

@@ -1,6 +1,7 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
+import itmo.kxrxh.lab5.commands.Command;
 import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
 
 /**
@@ -8,6 +9,7 @@ import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
  *
  * @author kxrxh
  */
+@Command(name = "RemoveById")
 @CollectionEditor
 public final class RemoveByIdCommand extends CollectionDependentCommand {
     private final long id;

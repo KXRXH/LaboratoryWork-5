@@ -1,6 +1,7 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.collection.CollectionCore;
+import itmo.kxrxh.lab5.commands.Command;
 import itmo.kxrxh.lab5.commands.CommandBuilder;
 import itmo.kxrxh.lab5.commands.CommandInvoker;
 import itmo.kxrxh.lab5.commands.Executable;
@@ -13,6 +14,7 @@ import java.util.Scanner;
  *
  * @author kxrxh
  */
+@Command(name = "Exit")
 public class ExitCommand implements Executable {
     private final int commandHistorySize = CommandInvoker.getHistorySize();
     private final CommandBuilder commandBuilder = CollectionCore.getCommandBuilder();

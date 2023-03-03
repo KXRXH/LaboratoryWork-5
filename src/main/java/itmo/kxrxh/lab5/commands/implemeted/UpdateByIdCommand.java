@@ -1,6 +1,7 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
+import itmo.kxrxh.lab5.commands.Command;
 import itmo.kxrxh.lab5.types.Product;
 import itmo.kxrxh.lab5.utils.annotations.CollectionEditor;
 import itmo.kxrxh.lab5.utils.parser.Parser;
@@ -8,6 +9,7 @@ import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
+@Command(name = "UpdateById")
 @CollectionEditor
 public class UpdateByIdCommand extends CollectionDependentCommand {
     private final long id;

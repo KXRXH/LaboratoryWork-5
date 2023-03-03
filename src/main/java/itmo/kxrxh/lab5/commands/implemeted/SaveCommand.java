@@ -2,6 +2,7 @@ package itmo.kxrxh.lab5.commands.implemeted;
 
 import itmo.kxrxh.lab5.Constants;
 import itmo.kxrxh.lab5.commands.CollectionDependentCommand;
+import itmo.kxrxh.lab5.commands.Command;
 import itmo.kxrxh.lab5.utils.TempFiles;
 import itmo.kxrxh.lab5.utils.env.dotenv.DotEnv;
 import itmo.kxrxh.lab5.utils.terminal.Colors;
@@ -10,6 +11,7 @@ import itmo.kxrxh.lab5.utils.xml.Xml;
 import java.io.File;
 
 
+@Command(name = "Save")
 public class SaveCommand extends CollectionDependentCommand {
     @Override
     public void execute() {

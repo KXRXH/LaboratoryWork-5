@@ -2,7 +2,6 @@ package itmo.kxrxh.lab5.collection;
 
 
 import itmo.kxrxh.lab5.types.Product;
-import itmo.kxrxh.lab5.utils.terminal.Printer;
 
 import java.util.LinkedList;
 
@@ -67,6 +66,18 @@ public class ProductCollector extends LinkedList<Product> implements BasicCollec
     @Override
     public void sort() {
         this.sort(Product::compareTo);
+    }
+
+    /**
+     * Sorting collection after adding new element
+     *
+     * @param product element whose presence in this collection is to be ensured
+     */
+    @Override
+    public boolean add(Product product) {
+        super.add(product);
+        this.sort(Product::compareTo);
+        return true;
     }
 
     /**

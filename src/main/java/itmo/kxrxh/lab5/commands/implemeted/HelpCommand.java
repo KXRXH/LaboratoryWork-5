@@ -1,5 +1,6 @@
 package itmo.kxrxh.lab5.commands.implemeted;
 
+import itmo.kxrxh.lab5.commands.Command;
 import itmo.kxrxh.lab5.commands.Executable;
 
 /**
@@ -7,6 +8,7 @@ import itmo.kxrxh.lab5.commands.Executable;
  *
  * @author kxrxh
  */
+@Command(name = "Help")
 public record HelpCommand() implements Executable {
     @Override
     public void execute() {
